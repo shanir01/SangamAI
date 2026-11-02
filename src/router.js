@@ -467,7 +467,7 @@ class Router {
       const err = new RouterError(
         503,
         "no_api_keys",
-        `no API key is set for any provider behind "${requested}". Open the router's Setup page (http://localhost:8787/) and paste at least one free key (Gemini, Groq, OpenRouter, Mistral...), or put it in .env and restart`,
+        `no API key is set for any provider behind "${requested}". Open the router's Setup page in your browser (http://localhost:8787/ by default) and paste at least one free key (Gemini, Groq, OpenRouter, Mistral...), or put it in .env and restart`,
       );
       err.tried = tried;
       throw err;

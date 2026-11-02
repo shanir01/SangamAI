@@ -121,7 +121,7 @@ function parseArgs(argv, env = process.env) {
   return opts;
 }
 
-const HELP = `FreeLLM-Router - one OpenAI-compatible API over many free-tier LLM APIs
+const HELP = `SangamAI - one OpenAI-compatible API over many free-tier LLM APIs
 
 Usage: node src/server.js [--port 8787] [--host 127.0.0.1] [--config router.config.json] [--state router.state.json] [--insecure]
 
@@ -361,7 +361,7 @@ function createApp({
       });
     if (url.pathname === "/admin/api/export" && req.method === "GET")
       return sendJson(res, 200, users.exportAll(), {
-        "content-disposition": 'attachment; filename="freellm-users-backup.json"',
+        "content-disposition": 'attachment; filename="sangamai-users-backup.json"',
       });
     if (url.pathname === "/admin/api/import" && req.method === "POST") {
       try {
@@ -415,7 +415,7 @@ function createApp({
         (url.pathname === "/" || url.pathname === "/dashboard" || url.pathname === "/admin")
       ) {
         // The page holds no data itself; it asks for the admin password, then calls /admin/api/*.
-        return sendFile(res, DASHBOARD_FILE, "<h1>FreeLLM-Router</h1><p>dashboard file missing</p>");
+        return sendFile(res, DASHBOARD_FILE, "<h1>SangamAI</h1><p>dashboard file missing</p>");
       }
       if (url.pathname === "/signup") {
         if (!signupEnabled)
@@ -464,7 +464,7 @@ function createApp({
           id,
           object: "model",
           created: 0,
-          owned_by: "freellm-router",
+          owned_by: "sangamai",
           kind: "alias",
         }));
         for (const [id, st] of router.models) {
@@ -663,7 +663,7 @@ async function main() {
   }
   const stateFile = path.resolve(
     opts.state ||
-      path.join(
+      path.resolve(
         path.dirname(configPath),
         config.state_file || "router.state.json",
       ),

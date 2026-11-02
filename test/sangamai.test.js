@@ -1,5 +1,5 @@
 "use strict";
-// Tests for the FreeLLM-Router additions: no-key errors, round-robin, 402 failover,
+// Tests for the SangamAI additions: no-key errors, round-robin, 402 failover,
 // token usage counters, MASTER_KEY, multi-user keys with daily quotas, signup, .env parsing.
 const test = require("node:test");
 const assert = require("node:assert/strict");

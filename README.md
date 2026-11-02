@@ -1,50 +1,60 @@
-# FreeLLM Router 🔀
+<div align="center">
 
-**Your own free AI API on your own computer.** Paste your free keys from Gemini, Groq, OpenRouter and Mistral into a simple web page. You get one OpenAI-compatible API at `http://localhost:8787/v1` that works with any app. When one provider hits its free limit, the next one answers automatically.
+<a href="https://shanir01.github.io/SangamAI/"><img src="docs/assets/banner.png" alt="SangamAI: All free AI APIs, one endpoint" width="100%"></a>
 
-![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)
-![Node 20+](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)
-![Dependencies: 0](https://img.shields.io/badge/dependencies-0-blue.svg)
-![Runs on](https://img.shields.io/badge/runs%20on-Windows%20%7C%20Android%20Termux%20%7C%20Linux%20%7C%20Mac-purple.svg)
+# SangamAI 🔀
 
-> **Honest note:** this is **not** "unlimited free AI". Every provider has a daily limit. FreeLLM Router **adds up** the free limits of the keys **you** add and switches between them for you. Every user runs it on their own machine with their own free keys.
+### All free AI APIs. One endpoint.
 
-🎮 **Live UI demo (sample data):** https://freellm-router-demo.sites.tab.bot · 👉 **Hinglish guide:** [neeche](#-hinglish-quickstart)
+**Paste your free Gemini, Groq, OpenRouter and Mistral keys into a web page → get ONE OpenAI-compatible API on `localhost` → when one provider hits its limit, the next one answers automatically.**
+Runs on Windows, Mac, Linux and your **Android phone** (Termux). ₹0. Zero dependencies.
 
-![Dashboard](docs/dashboard.jpg)
-![Setup, Playground and Connect on a phone](docs/mobile.jpg)
+[![License: MIT](https://img.shields.io/badge/license-MIT-7c5cff.svg?style=for-the-badge)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/shanir01/SangamAI?style=for-the-badge&color=00d4ff&logo=github)](https://github.com/shanir01/SangamAI/stargazers)
+[![Node 20+](https://img.shields.io/badge/node-%3E%3D20-22e3a1.svg?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff9f1c.svg?style=for-the-badge)](https://github.com/shanir01/SangamAI/pulls)
+<br>
+[![Zero dependencies](https://img.shields.io/badge/dependencies-0-blue.svg)](package.json)
+[![Runs on](https://img.shields.io/badge/runs%20on-Windows%20%7C%20Mac%20%7C%20Linux%20%7C%20Android-informational.svg)](#-quickstart)
+[![OpenAI compatible](https://img.shields.io/badge/API-OpenAI%20compatible-black.svg?logo=openai)](#-connect-any-app)
+
+**[🌐 Website & full guide (EN / हिंदी)](https://shanir01.github.io/SangamAI/)** · **[⚡ Quickstart](#-quickstart)** · **[🔑 Free keys](#-get-free-api-keys-1-minute-each)** · **[📱 Android](#-android-termux)** · **[🇮🇳 Hinglish](#-hinglish-quickstart)**
+
+<img src="docs/assets/flow.gif" alt="Animated: Groq answers 429, the same request goes to Gemini, the app gets 200 OK" width="440">
+
+<sub>Live: Groq hits its free limit (429) → the same request goes to Gemini → your app gets the answer.</sub>
+
+</div>
 
 ---
 
-## 🚀 Quickstart: 4 steps, on your own computer
+## 🤔 Why SangamAI?
 
-**1. Download.** On GitHub click **Code → Download ZIP** and unzip it, or:
+**Sangam** (संगम) is where rivers meet. Here, every free AI meets in one API.
+
+Google, Groq, OpenRouter and Mistral each give developers a **free daily quota**. On its own, each one runs out fast. SangamAI **adds them up** behind one OpenAI-style endpoint that every AI app already understands, and switches provider automatically when one is out.
+
+> **Honest note:** nothing is "unlimited". Every provider has daily limits. SangamAI combines them, so you get far more free requests than any single key, for ₹0.
+
+## ⚡ Quickstart
+
+**1. Download:** click **Code → Download ZIP** and unzip, or:
 ```bash
-git clone https://github.com/shanir01/FreeLLM-Router.git
+git clone https://github.com/shanir01/SangamAI.git
+cd SangamAI
 ```
 
-**2. Start it with one command.**
-- **Windows:** double-click **`start.bat`**. (If Node.js is missing, it tries to install it with winget. If that fails, it opens nodejs.org for you.)
-- **Android (Termux):**
-  ```bash
-  pkg install git -y && git clone https://github.com/shanir01/FreeLLM-Router.git
-  cd FreeLLM-Router && sh start.sh
-  ```
-  (`start.sh` installs Node.js itself when it's missing. It also runs on Linux and Mac.)
+**2. Start it (one click / one command):**
 
-**3. Paste your free keys.** Your browser opens **http://localhost:8787** on the **Setup** page. Click **Get free key** on a provider, paste the key, press **Test**, then **Save keys**. One key is enough to start; more keys give you more free requests.
+| Windows | Mac / Linux | Android (Termux) |
+|---|---|---|
+| Double-click **`start.bat`** | `sh start.sh` | `sh start.sh` |
 
-| Provider | Get the key |
-|---|---|
-| Google Gemini | https://aistudio.google.com/apikey |
-| Groq | https://console.groq.com/keys |
-| OpenRouter (free models) | https://openrouter.ai/keys |
-| Mistral (free mode) | https://console.mistral.ai/api-keys |
-| Cerebras (trial only) | https://cloud.cerebras.ai |
+Node.js 20+ is needed. The start script tries to install it if it's missing.
 
-Keys are saved only on your computer, in `keys.local.json` (that file is git-ignored). A `.env` file also works if you prefer.
+**3. Paste your free keys:** the browser opens **http://localhost:8787** on the **Setup** page → click **Get free key** → paste → **Test** ✓ → **Save keys**. Works instantly, no restart.
 
-**4. Use it.** Open **Connect** in the app to copy the settings, or paste these into any OpenAI-compatible app:
+**4. Use it anywhere:**
 
 | Setting | Value |
 |---|---|
@@ -52,42 +62,80 @@ Keys are saved only on your computer, in `keys.local.json` (that file is git-ign
 | API key | anything, e.g. `local` (or your `MASTER_KEY` if you set one) |
 | Model | `auto` |
 
-```python
-from openai import OpenAI   # pip install openai
-client = OpenAI(base_url="http://localhost:8787/v1", api_key="local")
-r = client.chat.completions.create(model="auto", messages=[{"role": "user", "content": "Namaste!"}])
-print(r.choices[0].message.content)
+## 📸 The app
+
+<div align="center"><img src="docs/assets/ui-strip.jpg" alt="SangamAI app: Setup, Dashboard, Playground, Connect" width="100%"></div>
+<sub>Setup · Dashboard · Playground · Connect (screenshots with demo data)</sub>
+
+## 🔑 Get free API keys (1 minute each)
+
+You need **at least one**. More keys = more free requests. **Never** post keys in chats, screenshots or GitHub. **Never add a credit card** to these free accounts: without a card, hitting a limit just pauses that provider.
+
+| Provider | Get the key | Steps |
+|---|---|---|
+| ⚡ **Groq** (best start) | [console.groq.com/keys](https://console.groq.com/keys) | Sign up → **Create API Key** → copy `gsk_…` (shown once) |
+| 🔷 **Google Gemini** | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) | Sign in with Google → **Create API key** → copy `AIza…` |
+| 🟣 **OpenRouter** | [openrouter.ai/keys](https://openrouter.ai/keys) | Sign in → **Create Key** → copy `sk-or-…` (only `:free` models are used) |
+| 🟠 **Mistral** | [console.mistral.ai/api-keys](https://console.mistral.ai/api-keys) | Sign up → choose the **free** plan → **Create new key** |
+| Cerebras (trial only) | [cloud.cerebras.ai](https://cloud.cerebras.ai) | Optional, trial credits only |
+
+## 📱 Android (Termux)
+
+1. Install **F-Droid** from [f-droid.org](https://f-droid.org), then install **Termux** from F-Droid (the Play Store version is outdated).
+2. In Termux:
+```bash
+pkg update -y && pkg upgrade -y
+pkg install git -y
+git clone https://github.com/shanir01/SangamAI.git
+cd SangamAI && sh start.sh
 ```
-The **Dashboard** shows tokens and requests for each provider today, which providers are live, and a fallback log. The **Playground** lets you chat in the browser and shows which provider answered each message.
+3. Chrome opens **http://localhost:8787** → paste keys → Test → Save.
+4. Use `http://localhost:8787/v1` in any AI app on the phone. Next time: `cd SangamAI && sh start.sh`.
 
-> Manual start (any OS): `npm start` or `node src/server.js`. No `npm install` is needed; there are no dependencies.
+Tip: if Android kills Termux, set Settings → Apps → Termux → Battery → **Unrestricted**. `start.sh` also takes a wake-lock.
 
----
+## 🔌 Connect any app
+
+```python
+from openai import OpenAI
+client = OpenAI(base_url="http://localhost:8787/v1", api_key="local")
+print(client.chat.completions.create(model="auto",
+      messages=[{"role": "user", "content": "Namaste!"}]).choices[0].message.content)
+```
+
+```js
+import OpenAI from "openai";
+const client = new OpenAI({ baseURL: "http://localhost:8787/v1", apiKey: "local" });
+const r = await client.chat.completions.create({ model: "auto", messages: [{ role: "user", content: "Namaste!" }] });
+console.log(r.choices[0].message.content);
+```
+
+```bash
+curl http://localhost:8787/v1/chat/completions -H "Authorization: Bearer local" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"auto","messages":[{"role":"user","content":"Namaste!"}]}'
+```
+
+Works with **n8n** ([guide](docs/n8n.md)), LangChain, Continue, Cline, [claude-code-router](docs/claude-code-router.md) and anything that lets you change the OpenAI base URL. Streaming (`"stream": true`) is supported.
 
 ## ✨ Features
 
 | | |
 |---|---|
-| 🧩 **Setup page** | Paste keys in the browser, test them against the real provider, save them locally. No file editing. |
-| 🔌 **OpenAI-compatible** | `POST /v1/chat/completions` (normal + streaming), `GET /v1/models`. Works with the OpenAI SDKs, n8n, LangChain, Cline/Continue, and anything that lets you change the base URL. |
-| 🔁 **Auto-fallback** | 429, quota, 5xx, timeout or out-of-credits on one provider → the same request goes to the next one. |
-| 🔄 **Round-robin** | `auto` rotates the first provider on every request, so your free limits are used evenly. |
+| 🔁 **Auto-fallback** | 429, quota, 5xx, timeout or out-of-credits → the same request goes to the next provider. |
+| 🔄 **Round-robin** | `auto` rotates the first provider on every request, so limits are used evenly. |
+| 🔌 **OpenAI-compatible** | `POST /v1/chat/completions` (normal + streaming), `GET /v1/models`. |
+| 🧩 **Setup page** | Paste keys in the browser, test them against the real provider, save locally. No file editing. |
 | 📊 **Dashboard** | Usage per provider (requests, tokens, today and 7 days), live status, fallback log. |
 | 💬 **Playground** | Chat in the browser; every answer shows its provider, model and speed. |
-| 🔗 **Connect page** | Base URL, key and copy-paste code for Python, Node and curl. |
-| 🪶 **Zero dependencies** | Pure Node.js 20+. One-click `start.bat` / `start.sh`. |
-| 🛡️ **Safe by default** | Listens on localhost only. Only `free: true` models are called. Keys are hidden from logs. |
-| 👥 **Server mode (advanced, off by default)** | Host it for other people: an admin panel creates `sk-flr-…` keys with daily token limits, plus an optional signup page. [See below](#-server-mode-advanced). |
+| 📱 **Runs on Android** | Full router in Termux, one command. |
+| 🪶 **Zero dependencies** | Pure Node.js 20+. No `npm install`, no Docker, no database. |
+| 🛡️ **Safe by default** | Listens on localhost only. Only `free: true` models are called. Keys never appear in logs. |
+| 👥 **Server mode** (advanced, off) | Host it for friends: user keys with daily token limits, optional signup page, Render one-click deploy. |
 
-## 🧠 How it works
+## ✅ Tested
 
-```
-your app / website / bot  ──►  http://localhost:8787/v1   (FreeLLM Router on YOUR computer)
-                                   │ picks a provider that still has free limit left
-                    ┌──────────────┼───────────────┬────────────────┐
-                  Groq          Gemini          Mistral       OpenRouter :free   ← YOUR free keys
-                    429? ────► next one, same request
-```
+From a fresh clone on Linux (`sh start.sh`): every page loads, `/v1/models` lists 13 models and aliases, chat works in normal and streaming mode, a provider answering **429 falls back to the next one in the same request**, a key saved on the Setup page works at once without restart, `MASTER_KEY` blocks requests without the key, and all 49 automated tests pass (`npm test`). Real provider keys are tested by you on first run.
 
 ## 📋 Free tiers (checked 2026-11-02)
 
@@ -150,11 +198,11 @@ Notes: the quota is checked before each request, so the last request of the day 
 
 ### Host it free on Render (server mode)
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/shanir01/FreeLLM-Router)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/shanir01/SangamAI)
 
 1. Click the button and log in to Render with GitHub. It reads `render.yaml` and creates a **free** web service with `SERVER_MODE=true`.
 2. Fill in your provider keys and `ADMIN_PASSWORD`. `MASTER_KEY` is generated for you; find it under **Environment**.
-3. After the deploy you get `https://freellm-router-xxxx.onrender.com`. Your API is at `https://…onrender.com/v1` and the dashboard at `https://…onrender.com/`.
+3. After the deploy you get `https://sangamai-xxxx.onrender.com`. Your API is at `https://…onrender.com/v1` and the dashboard at `https://…onrender.com/`.
 
 **Honest limits of Render free** ([docs](https://render.com/docs/free)):
 - It **sleeps after 15 minutes without traffic**. The next request wakes it in about 1 minute.
@@ -215,13 +263,22 @@ Response headers: `x-router-provider`, `x-router-model`, and `x-quota-remaining`
 
 Based on **[free-llm-router](https://github.com/waseemnasir2k26/free-llm-router)** by **Waseem Nasir** (MIT License), which provides the routing engine: token buckets, Retry-After handling, cooldowns, removed-model detection, the free-only guard, streaming passthrough, key redaction and the test suite.
 
-**FreeLLM Router changes (by Nirbhay Sharma):** the web app (Setup page with key testing, Dashboard, Playground, Connect page), one-click `start.bat`/`start.sh`, `.env` loading, `MASTER_KEY`, multi-user API keys with daily token quotas, a signup page, round-robin, per-provider token/usage counters, shared provider-wide limits (OpenRouter), 402/out-of-credits fallback, Hugging Face, models updated to November 2026, Render one-click deploy, gist cloud save, CORS, `/v1/me`, a Hinglish guide and more tests.
+**SangamAI changes (by Nirbhay Sharma):** the web app (Setup page with key testing, Dashboard, Playground, Connect page), one-click `start.bat`/`start.sh`, `.env` loading, `MASTER_KEY`, multi-user API keys with daily token quotas, a signup page, round-robin, per-provider token/usage counters, shared provider-wide limits (OpenRouter), 402/out-of-credits fallback, Hugging Face, models updated to November 2026, Render one-click deploy, gist cloud save, CORS, `/v1/me`, a Hinglish guide and more tests.
 
 ## 📄 License
 
 MIT. See [LICENSE](LICENSE) (it keeps the original author's copyright notice).
 
 ---
+
+
+## ⭐ Like it? Star it!
+
+If SangamAI saves you money or time, **[give it a ⭐](https://github.com/shanir01/SangamAI)**: it helps more people find free AI. Share it with a friend who pays for AI APIs 😉
+
+[![Star History Chart](https://api.star-history.com/svg?repos=shanir01/SangamAI&type=Date)](https://star-history.com/#shanir01/SangamAI&Date)
+
+`#FreeAI` `#LLM` `#OpenSource` `#Gemini` `#Groq` `#OpenRouter` `#Mistral` `#Termux` `#NodeJS` `#AItools` `#ChatGPTAlternative` `#SelfHosted`
 
 ## 🇮🇳 Hinglish Quickstart
 
@@ -231,14 +288,14 @@ MIT. See [LICENSE](LICENSE) (it keeps the original author's copyright notice).
 
 ### 4 step me shuru karo
 
-**1. Download karo:** GitHub pe **Code → Download ZIP** karke unzip karo (ya `git clone https://github.com/shanir01/FreeLLM-Router.git`).
+**1. Download karo:** GitHub pe **Code → Download ZIP** karke unzip karo (ya `git clone https://github.com/shanir01/SangamAI.git`).
 
 **2. Chalao (ek command):**
 - **Windows:** `start.bat` pe double-click karo. Node.js nahi hai to wo khud install karne ki koshish karega.
 - **Android Termux:**
   ```bash
-  pkg install git -y && git clone https://github.com/shanir01/FreeLLM-Router.git
-  cd FreeLLM-Router && sh start.sh
+  pkg install git -y && git clone https://github.com/shanir01/SangamAI.git
+  cd SangamAI && sh start.sh
   ```
 
 **3. Keys paste karo:** Browser me **http://localhost:8787** khulega, seedha **Setup** page pe. Har provider ke card pe **Get free key** dabao, key copy karke paste karo, **Test** dabao (✓ aana chahiye), phir **Save keys**. Ek key se bhi kaam chalega, zyada keys = zyada free requests.

@@ -18,7 +18,7 @@ function makeCloudSave({ env = process.env, files, logger, fetchImpl = globalThi
   const headers = {
     authorization: "Bearer " + token,
     accept: "application/vnd.github+json",
-    "user-agent": "FreeLLM-Router",
+    "user-agent": "SangamAI",
     "content-type": "application/json",
   };
   const last = {}; // file -> last uploaded content

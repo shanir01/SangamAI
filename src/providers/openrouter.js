@@ -6,7 +6,7 @@ module.exports = {
   base_url: "https://openrouter.ai/api/v1",
   api_key_env: "OPENROUTER_API_KEY",
   headers(key) {
-    return { authorization: "Bearer " + key, "x-title": "FreeLLM-Router" };
+    return { authorization: "Bearer " + key, "x-title": "SangamAI" };
   },
   prepareBody: genericPrepare,
 };

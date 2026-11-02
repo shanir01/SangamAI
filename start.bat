@@ -1,6 +1,6 @@
 @echo off
-REM FreeLLM Router - one-click start for Windows
-title FreeLLM Router
+REM SangamAI - one-click start for Windows
+title SangamAI
 cd /d "%~dp0"
 
 where node >nul 2>nul
@@ -29,7 +29,8 @@ if %NODEMAJOR% LSS 20 (
 
 if not defined PORT set PORT=8787
 echo.
-echo  FreeLLM Router is starting...
+echo  SangamAI - All free AI APIs, one endpoint
+echo  Starting...
 echo  Open:  http://localhost:%PORT%   (Setup page opens in your browser)
 echo  API :  http://localhost:%PORT%/v1
 echo  Stop:  close this window or press Ctrl+C

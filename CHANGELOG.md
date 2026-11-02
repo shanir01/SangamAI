@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.0 - 2026-11-02 (SangamAI)
+
+- Renamed FreeLLM-Router → **SangamAI** ("All free AI APIs, one endpoint"). GitHub redirects the old repo URL.
+- New animated landing + docs page (English / हिंदी toggle) in `docs/`, served by GitHub Pages.
+- Fix: an absolute `state_file` in the config is no longer joined onto the config folder.
+- The "no API key" error no longer hard-codes port 8787 as the only address.
+- Tested end to end from a fresh clone: `start.sh`, every page, `/v1/models`, chat (normal + streaming), fallback on 429, keys saved from the Setup page working without restart, `MASTER_KEY` protection.
+
 ## 2.0.0 - 2026-11-02 (FreeLLM-Router)
 
 - Forked from free-llm-router 1.0.0 by Waseem Nasir (MIT).

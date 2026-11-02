@@ -1,4 +1,4 @@
-# Using FreeLLM-Router with n8n
+# Using SangamAI with n8n
 
 Your n8n AI nodes speak the OpenAI API. Point them at the router and a 429 from one provider becomes a retry on the next one, inside the same request.
 

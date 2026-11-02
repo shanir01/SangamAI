@@ -13,5 +13,5 @@ EXPOSE 8787
 RUN mkdir -p /data && chown node:node /data
 USER node
 VOLUME ["/data"]
-# The server refuses to start on 0.0.0.0 without MASTER_KEY:  docker run -e MASTER_KEY=... -e GROQ_API_KEY=... -p 8787:8787 freellm-router
+# The server refuses to start on 0.0.0.0 without MASTER_KEY:  docker run -e MASTER_KEY=... -e GROQ_API_KEY=... -p 8787:8787 sangamai
 CMD ["node", "src/server.js"]

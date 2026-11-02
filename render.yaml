@@ -3,7 +3,7 @@
 # (find it later in Render -> your service -> Environment).
 services:
   - type: web
-    name: freellm-router
+    name: sangamai
     runtime: node
     plan: free
     buildCommand: "echo no build needed"

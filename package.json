@@ -1,10 +1,10 @@
 {
-  "name": "freellm-router",
-  "version": "2.0.0",
-  "description": "One OpenAI-compatible API over many free-tier LLM APIs (Gemini, Groq, OpenRouter free models, Mistral, Cerebras trial) with auto-fallback, round-robin, token counter, dashboard and multi-user API keys. Zero dependencies.",
+  "name": "sangamai",
+  "version": "2.1.0",
+  "description": "SangamAI: all free AI APIs, one endpoint. One OpenAI-compatible API on localhost over free Gemini, Groq, OpenRouter and Mistral keys, with auto-fallback, round-robin, usage dashboard and a web Setup page. Runs on Windows, Mac, Linux and Android (Termux). Zero dependencies.",
   "main": "src/server.js",
   "bin": {
-    "freellm-router": "src/server.js"
+    "sangamai": "src/server.js"
   },
   "scripts": {
     "start": "node src/server.js",
@@ -15,28 +15,33 @@
     "node": ">=20"
   },
   "keywords": [
-    "llm",
-    "openai-compatible",
-    "llm-router",
+    "sangamai",
     "free-llm",
+    "llm-router",
+    "openai-compatible",
+    "llm-gateway",
+    "free-ai",
+    "ai-api",
     "gemini",
     "groq",
     "openrouter",
     "mistral",
-    "cerebras",
-    "failover",
-    "api-gateway",
-    "multi-user",
-    "termux"
+    "termux",
+    "localhost",
+    "self-hosted",
+    "failover"
   ],
   "author": "Nirbhay Sharma (NISHU)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shanir01/FreeLLM-Router.git"
+    "url": "git+https://github.com/shanir01/SangamAI.git"
   },
-  "homepage": "https://github.com/shanir01/FreeLLM-Router#readme",
+  "homepage": "https://shanir01.github.io/SangamAI/",
   "contributors": [
     "Waseem Nasir <info@skynetjoe.com> (original free-llm-router, MIT)"
-  ]
+  ],
+  "bugs": {
+    "url": "https://github.com/shanir01/SangamAI/issues"
+  }
 }

@@ -1,6 +1,6 @@
-# Using FreeLLM-Router with claude-code-router (and other OpenAI-compatible clients)
+# Using SangamAI with claude-code-router (and other OpenAI-compatible clients)
 
-[claude-code-router](https://github.com/musistudio/claude-code-router) lets you point Claude Code at any OpenAI-compatible provider. FreeLLM-Router can be that provider, so one upstream 429 does not stop a session.
+[claude-code-router](https://github.com/musistudio/claude-code-router) lets you point Claude Code at any OpenAI-compatible provider. SangamAI can be that provider, so one upstream 429 does not stop a session.
 
 ## 1. Run the router
 
@@ -16,16 +16,16 @@ In claude-code-router's `config.json` (`~/.claude-code-router/config.json`), add
 {
   "Providers": [
     {
-      "name": "FreeLLM-Router",
+      "name": "SangamAI",
       "api_base_url": "http://localhost:8787/v1/chat/completions",
       "api_key": "unused-unless-MASTER_KEY-is-set",
       "models": ["fast", "smart", "long-context"]
     }
   ],
   "Router": {
-    "default": "FreeLLM-Router,smart",
-    "background": "FreeLLM-Router,fast",
-    "longContext": "FreeLLM-Router,long-context"
+    "default": "SangamAI,smart",
+    "background": "SangamAI,fast",
+    "longContext": "SangamAI,long-context"
   }
 }
 ```

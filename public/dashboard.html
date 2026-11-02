@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a0d14">
-<title>FreeLLM Router</title>
+<title>SangamAI by Nishu</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%2310b981'/><path d='M18 22h28M18 32h20M18 42h12' stroke='%23052e22' stroke-width='6' stroke-linecap='round'/><circle cx='46' cy='42' r='6' fill='%23052e22'/></svg>">
 <style>
 :root{
@@ -151,7 +151,7 @@ pre.code .cp{position:absolute;top:10px;right:10px}
 
 <div id="loginView" class="hide">
   <div class="card login">
-    <div class="brand" style="margin:0 0 18px"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#052e22" stroke-width="2.6" stroke-linecap="round"><path d="M5 7h14M5 12h9M5 17h5"/><circle cx="18" cy="17" r="2.4" fill="#052e22"/></svg></div><div><b>FreeLLM Router</b><small>by Nishu</small></div></div>
+    <div class="brand" style="margin:0 0 18px"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#052e22" stroke-width="2.6" stroke-linecap="round"><path d="M5 7h14M5 12h9M5 17h5"/><circle cx="18" cy="17" r="2.4" fill="#052e22"/></svg></div><div><b>SangamAI</b><small>by Nishu</small></div></div>
     <h2 style="margin:0 0 6px;font-size:19px">Admin login</h2>
     <p class="mut small" style="margin:0 0 16px">This router is protected. Enter your <code>ADMIN_PASSWORD</code> (or <code>MASTER_KEY</code>).</p>
     <input id="pw" type="password" placeholder="Password" autocomplete="current-password">
@@ -162,7 +162,7 @@ pre.code .cp{position:absolute;top:10px;right:10px}
 
 <div class="shell hide" id="app">
   <aside>
-    <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#052e22" stroke-width="2.6" stroke-linecap="round"><path d="M5 7h14M5 12h9M5 17h5"/><circle cx="18" cy="17" r="2.4" fill="#052e22"/></svg></div><div><b>FreeLLM Router</b><small>by Nishu</small></div></div>
+    <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#052e22" stroke-width="2.6" stroke-linecap="round"><path d="M5 7h14M5 12h9M5 17h5"/><circle cx="18" cy="17" r="2.4" fill="#052e22"/></svg></div><div><b>SangamAI</b><small>by Nishu</small></div></div>
     <nav id="nav">
       <a href="#setup" data-v="setup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.6 7.6a5.5 5.5 0 1 1-7.8 7.8 5.5 5.5 0 0 1 7.8-7.8zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>Setup</a>
       <a href="#dashboard" data-v="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>Dashboard</a>
@@ -174,7 +174,7 @@ pre.code .cp{position:absolute;top:10px;right:10px}
   </aside>
 
   <main>
-    <div class="mtop"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#052e22" stroke-width="2.6" stroke-linecap="round"><path d="M5 7h14M5 12h9M5 17h5"/><circle cx="18" cy="17" r="2.4" fill="#052e22"/></svg></div><b>FreeLLM Router</b><span class="dim small">by Nishu</span><span id="mDemo"></span></div>
+    <div class="mtop"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#052e22" stroke-width="2.6" stroke-linecap="round"><path d="M5 7h14M5 12h9M5 17h5"/><circle cx="18" cy="17" r="2.4" fill="#052e22"/></svg></div><b>SangamAI</b><span class="dim small">by Nishu</span><span id="mDemo"></span></div>
 
     <!-- SETUP -->
     <section id="v-setup">
@@ -344,8 +344,8 @@ const demo = (() => {
       const reply = /poem|kavita/i.test(text)
         ? "Steam rises slow from a clay-cup glow,\nGinger and cardamom, stories in tow,\nOne sip of chai and the whole day says hello. ☕"
         : text.toLowerCase().includes("hindi") || /namaste|kaise/i.test(text)
-        ? "Namaste! 🙏 Main FreeLLM Router ke through jawab de raha hoon. Aaj Groq ki limit bachi thi, isliye isne reply kiya."
-        : "Hi! This answer came through your FreeLLM Router. Groq answered this time; if it hits its free limit, the next provider takes over automatically.";
+        ? "Namaste! 🙏 Main SangamAI ke through jawab de raha hoon. Aaj Groq ki limit bachi thi, isliye isne reply kiya."
+        : "Hi! This answer came through your SangamAI. Groq answered this time; if it hits its free limit, the next provider takes over automatically.";
       for (const w of reply.split(/(\s+)/)) { await new Promise((r) => setTimeout(r, 28)); onDelta(w); }
       return { provider: "groq", model: "openai/gpt-oss-120b" };
     },
@@ -593,7 +593,7 @@ $("#uCreate").onclick = async () => {
 };
 $("#exportBtn").onclick = async () => {
   const j = await api("GET", "/admin/api/export");
-  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(j, null, 2)], { type: "application/json" })); a.download = "freellm-users-backup.json"; a.click();
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(j, null, 2)], { type: "application/json" })); a.download = "sangamai-users-backup.json"; a.click();
 };
 $("#importFile").onchange = async (e) => {
   const f = e.target.files[0]; if (!f || !confirm("Replace all users with this backup?")) return;

@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SangamAI · All free AI APIs, one endpoint</title>
+<meta name="description" content="SangamAI combines free Gemini, Groq, OpenRouter and Mistral API keys into one OpenAI-compatible API on localhost, with auto-fallback. Runs on Windows, Mac, Linux and Android (Termux). Free and open source by Nishu.">
+<meta name="theme-color" content="#07080f">
+<meta property="og:title" content="SangamAI · All free AI APIs, one endpoint">
+<meta property="og:description" content="Paste free Gemini, Groq, OpenRouter and Mistral keys. Get one OpenAI-compatible API on localhost with auto-fallback. Runs on PC and Android.">
+<meta property="og:image" content="https://raw.githubusercontent.com/shanir01/SangamAI/main/docs/assets/social-preview.png">
+<meta property="og:url" content="https://shanir01.github.io/SangamAI/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><div class="grid"></div></div>
+<header class="nav" id="top">
+ <div class="wrap navin">
+  <a class="logo" href="#top"><span class="lmark">🔀</span><span>Sangam<b>AI</b></span></a>
+  <nav class="links" aria-label="Sections">
+   <a href="#what"><span data-i18n="nav_what">What</span></a><a href="#features"><span data-i18n="nav_feat">Features</span></a><a href="#keys"><span data-i18n="nav_keys">Free keys</span></a><a href="#pc"><span data-i18n="nav_setup">Setup</span></a><a href="#connect"><span data-i18n="nav_connect">Connect</span></a><a href="#faq"><span data-i18n="nav_faq">FAQ</span></a>
+  </nav>
+  <div class="navr">
+   <button class="lang" id="lang" type="button" aria-label="Switch language: English or Hindi"><span data-l="en" class="on">EN</span><span class="sep">|</span><span data-l="hi">हिंदी</span></button>
+   <a class="gh" href="https://github.com/shanir01/SangamAI" target="_blank" rel="noopener" aria-label="GitHub repository"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span class="ghs"><span data-i18n="star">Star</span> ⭐</span></a>
+  </div>
+ </div>
+</header>
+<main id="main">
+<section class="hero">
+ <div class="wrap herogrid">
+  <div class="herotxt">
+   <p class="pill reveal"><span data-i18n="hero_pill">SangamAI · 100% free · open source · runs on your PC and phone</span></p>
+   <h1 data-i18n="hero_h1" class="reveal" style="--d:80ms">All free AI APIs.<br><span class="grad">One endpoint.</span></h1>
+   <p data-i18n="hero_sub" class="sub reveal" style="--d:160ms">Paste your free Gemini, Groq, OpenRouter and Mistral keys into a simple web page. Get one OpenAI-compatible endpoint on <code>localhost</code>. When one provider hits its limit, the next one answers automatically.</p>
+   <div class="ctas reveal" style="--d:240ms">
+    <a class="btn pri" href="#keys"><span data-i18n="cta_start">Get started in 2 minutes</span> →</a>
+    <a class="btn" href="https://github.com/shanir01/SangamAI" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> <span data-i18n="cta_star">Star on GitHub</span></a>
+   </div>
+   <div class="reveal" style="--d:320ms"><div class="codebox"><pre><code>git clone https://github.com/shanir01/SangamAI.git
+cd SangamAI
+sh start.sh</code></pre><button class="copy" type="button" data-copy><span data-i18n="copy">Copy</span></button></div></div>
+   <p data-i18n="hero_note" class="note reveal" style="--d:380ms">No card. No server. No sign-up with us. Your keys stay on your device.</p>
+  </div>
+  <figure class="flowcard glass reveal" style="--d:200ms">
+   <div class="term"><span></span><span></span><span></span><em>POST /v1/chat/completions · model: auto</em></div>
+   <svg class="flow" viewBox="0 0 420 300" role="img" aria-label="Request flow: app to router to providers with automatic fallback">
+ <defs>
+  <linearGradient id="gR" x1="0" x2="1"><stop offset="0" stop-color="#7c5cff"/><stop offset="1" stop-color="#00d4ff"/></linearGradient>
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ </defs>
+ <g class="links">
+  <path d="M86 150 H160"/>
+  <path id="l-groq" d="M240 150 C280 150 290 45 322 45"/>
+  <path id="l-gemini" d="M240 150 C280 150 290 115 322 115"/>
+  <path id="l-openrouter" d="M240 150 C280 150 290 185 322 185"/>
+  <path id="l-mistral" d="M240 150 C280 150 290 255 322 255"/>
+ </g>
+ <g class="node app" id="n-app"><rect x="6" y="120" width="80" height="60" rx="14"/><text x="46" y="146" class="ico">📱</text><text x="46" y="168" data-i18n="flow_app">Your app</text></g>
+ <g class="node router" id="n-router"><rect x="160" y="110" width="80" height="80" rx="18" fill="url(#gR)" filter="url(#glow)"/><text x="200" y="146" class="ico">🔀</text><text x="200" y="170" class="rt">SangamAI</text></g>
+ <g class="node prov" id="n-groq" style="--pc:#f55036"><rect x="322" y="25" width="92" height="40" rx="12"/><circle cx="338" cy="45" r="5"/><text x="352" y="50" class="pn">Groq</text><text class="badge" x="400" y="20">429</text></g>
+ <g class="node prov" id="n-gemini" style="--pc:#4f8bff"><rect x="322" y="95" width="92" height="40" rx="12"/><circle cx="338" cy="115" r="5"/><text x="352" y="120" class="pn">Gemini</text><text class="badge" x="400" y="90">429</text></g>
+ <g class="node prov" id="n-openrouter" style="--pc:#a78bfa"><rect x="322" y="165" width="92" height="40" rx="12"/><circle cx="338" cy="185" r="5"/><text x="352" y="190" class="pn sm">OpenRouter</text><text class="badge" x="400" y="160">429</text></g>
+ <g class="node prov" id="n-mistral" style="--pc:#ff9f1c"><rect x="322" y="235" width="92" height="40" rx="12"/><circle cx="338" cy="255" r="5"/><text x="352" y="260" class="pn">Mistral</text><text class="badge" x="400" y="230">429</text></g>
+ <circle id="pkt" r="7" cx="86" cy="150" filter="url(#glow)"/>
+ <g id="okbubble" class="okb"><rect x="0" y="80" width="92" height="28" rx="14"/><text x="46" y="99">✓ 200 OK</text></g>
+</svg>
+   <div class="log" id="flowlog" aria-live="off"></div>
+   <figcaption data-i18n="flow_caption">Live demo: Groq hits its limit (429) → the same request goes to Gemini → your app gets the answer.</figcaption>
+  </figure>
+ </div>
+ <div class="wrap stats">
+  <div class="stat glass reveal"><b>4+</b><span data-i18n="st1">free providers</span></div>
+  <div class="stat glass reveal" style="--d:80ms"><b>0</b><span data-i18n="st2">dependencies</span></div>
+  <div class="stat glass reveal" style="--d:160ms"><b>1</b><span data-i18n="st3">OpenAI-compatible endpoint</span></div>
+  <div class="stat glass reveal" style="--d:240ms"><b>₹0</b><span data-i18n="st4">to run</span></div>
+ </div>
+</section>
+
+<section id="what" class="sec">
+ <div class="wrap">
+  <p data-i18n="what_eyebrow" class="eyebrow reveal">What it is</p>
+  <h2 data-i18n="what_h" class="reveal">Your own AI gateway, running on your own device</h2>
+  <p data-i18n="what_p" class="lead reveal">Big AI companies give every developer a free daily quota. SangamAI joins all those free quotas into <b>one</b> API that every OpenAI app already understands. One key runs out? It quietly switches to the next.</p>
+  <p data-i18n="meaning" class="meaning reveal"><b>Sangam</b> (संगम) is where rivers meet. In SangamAI, every free AI meets in one API.</p>
+  <div class="three">
+   <div class="card glass reveal"><div class="ficon">🔑</div><h3 data-i18n="w1_t">1 · Paste free keys</h3><p data-i18n="w1_p">Open the Setup page, click “Get free key”, paste, press Test.</p></div>
+   <div class="card glass reveal" style="--d:80ms"><div class="ficon">🔗</div><h3 data-i18n="w2_t">2 · Use one URL</h3><p data-i18n="w2_p">Point any app to <code>http://localhost:8787/v1</code> with model <code>auto</code>.</p></div>
+   <div class="card glass reveal" style="--d:160ms"><div class="ficon">⚡</div><h3 data-i18n="w3_t">3 · Never get stuck</h3><p data-i18n="w3_p">Limit hit, error or timeout → the same request goes to the next provider.</p></div>
+  </div>
+  <p data-i18n="honest" class="callout reveal"><b>Honest note:</b> nothing is “unlimited”. Every provider has a daily limit. This app <b>adds them up</b> so you get far more free requests than any one key gives.</p>
+ </div>
+</section>
+
+<section id="features" class="sec">
+ <div class="wrap">
+  <p data-i18n="feat_eyebrow" class="eyebrow reveal">Features</p>
+  <h2 data-i18n="feat_h" class="reveal">Everything you need. Nothing you don’t.</h2>
+  <div class="feats"><article class="card glass reveal" style="--d:0ms"><div class="ficon">🔁</div><h3 data-i18n="f0_t">Auto-fallback</h3><p data-i18n="f0_p">429, quota, 5xx, timeout or out-of-credits on one provider → the same request goes to the next one.</p></article><article class="card glass reveal" style="--d:60ms"><div class="ficon">🔄</div><h3 data-i18n="f1_t">Round-robin</h3><p data-i18n="f1_p">Model <code>auto</code> rotates providers on every request, so your free limits are used evenly.</p></article><article class="card glass reveal" style="--d:120ms"><div class="ficon">🔌</div><h3 data-i18n="f2_t">OpenAI-compatible</h3><p data-i18n="f2_p"><code>/v1/chat/completions</code> (normal + streaming) and <code>/v1/models</code>. Works with OpenAI SDKs, n8n, LangChain, Continue, Cline.</p></article><article class="card glass reveal" style="--d:180ms"><div class="ficon">🧩</div><h3 data-i18n="f3_t">Setup page</h3><p data-i18n="f3_p">Paste keys in the browser, test them against the real provider, save. No file editing.</p></article><article class="card glass reveal" style="--d:240ms"><div class="ficon">📊</div><h3 data-i18n="f4_t">Live dashboard</h3><p data-i18n="f4_p">Tokens and requests per provider, which one is live, and a fallback log.</p></article><article class="card glass reveal" style="--d:300ms"><div class="ficon">💬</div><h3 data-i18n="f5_t">Playground</h3><p data-i18n="f5_p">Chat in the browser. Every answer shows which provider replied and how fast.</p></article><article class="card glass reveal" style="--d:360ms"><div class="ficon">📱</div><h3 data-i18n="f6_t">Runs on Android</h3><p data-i18n="f6_p">Termux on your phone runs the full router. One command: <code>sh start.sh</code>.</p></article><article class="card glass reveal" style="--d:420ms"><div class="ficon">🪶</div><h3 data-i18n="f7_t">Zero dependencies</h3><p data-i18n="f7_p">Pure Node.js 20+. No <code>npm install</code>, no Docker, no database.</p></article><article class="card glass reveal" style="--d:480ms"><div class="ficon">🛡️</div><h3 data-i18n="f8_t">Safe by default</h3><p data-i18n="f8_p">Listens on localhost only. Only free models are called. Keys never appear in logs.</p></article></div>
+ </div>
+</section>
+
+<section id="app" class="sec">
+ <div class="wrap">
+  <p data-i18n="app_eyebrow" class="eyebrow reveal">The app</p>
+  <h2 data-i18n="app_h" class="reveal">A real app, not just an API</h2>
+  <p data-i18n="app_p" class="lead reveal">Setup, Dashboard, Playground and Connect pages run in your browser at <code>localhost:8787</code>. (Screenshots with demo data.)</p>
+  <div class="shots glass reveal"><img src="assets/ui-strip.jpg" width="1670" height="894" loading="lazy" alt="SangamAI app screens on a phone: Setup, Dashboard, Playground and Connect"></div>
+ </div>
+</section>
+
+<section id="keys" class="sec">
+ <div class="wrap">
+  <p data-i18n="keys_eyebrow" class="eyebrow reveal">Where to get the API keys</p>
+  <h2 data-i18n="keys_h" class="reveal">Get your free API keys</h2>
+  <p data-i18n="keys_p" class="lead reveal">You need <b>at least one</b>. More keys = more free requests. Each takes about a minute. Keep them private: never post them in chats, screenshots or GitHub.</p>
+  <div class="pgrid"><article class="pcard glass reveal" style="--c:#f55036"><header><span class="dot"></span><h3>Groq</h3> <span class="best"><span data-i18n="k_best">Best start</span></span></header><ol class="steps"><li><span data-i18n="k_groq_0">Open <b>console.groq.com/keys</b></span></li><li><span data-i18n="k_groq_1">Sign up with Google, GitHub or email</span></li><li><span data-i18n="k_groq_2">Click <b>Create API Key</b> and give it any name</span></li><li><span data-i18n="k_groq_3">Copy the key (starts with <code>gsk_</code>). It is shown only once!</span></li></ol><a class="btn sm" href="https://console.groq.com/keys" target="_blank" rel="noopener"><span data-i18n="k_open">Open</span> console.groq.com/keys ↗</a></article><article class="pcard glass reveal" style="--c:#4f8bff"><header><span class="dot"></span><h3>Google Gemini</h3></header><ol class="steps"><li><span data-i18n="k_gemini_0">Open <b>aistudio.google.com/apikey</b></span></li><li><span data-i18n="k_gemini_1">Sign in with your Google account</span></li><li><span data-i18n="k_gemini_2">Click <b>Create API key</b></span></li><li><span data-i18n="k_gemini_3">Copy the key (starts with <code>AIza</code>)</span></li></ol><a class="btn sm" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener"><span data-i18n="k_open">Open</span> aistudio.google.com/apikey ↗</a></article><article class="pcard glass reveal" style="--c:#a78bfa"><header><span class="dot"></span><h3>OpenRouter</h3></header><ol class="steps"><li><span data-i18n="k_openrouter_0">Open <b>openrouter.ai/keys</b></span></li><li><span data-i18n="k_openrouter_1">Sign in with Google, GitHub or email</span></li><li><span data-i18n="k_openrouter_2">Click <b>Create Key</b></span></li><li><span data-i18n="k_openrouter_3">Copy the key (starts with <code>sk-or-</code>). No credits needed: only <code>:free</code> models are used</span></li></ol><a class="btn sm" href="https://openrouter.ai/keys" target="_blank" rel="noopener"><span data-i18n="k_open">Open</span> openrouter.ai/keys ↗</a></article><article class="pcard glass reveal" style="--c:#ff9f1c"><header><span class="dot"></span><h3>Mistral</h3></header><ol class="steps"><li><span data-i18n="k_mistral_0">Open <b>console.mistral.ai/api-keys</b></span></li><li><span data-i18n="k_mistral_1">Sign up and pick the <b>free</b> plan (it may ask to verify your phone)</span></li><li><span data-i18n="k_mistral_2">Click <b>Create new key</b></span></li><li><span data-i18n="k_mistral_3">Copy the key and paste it on the Setup page</span></li></ol><a class="btn sm" href="https://console.mistral.ai/api-keys" target="_blank" rel="noopener"><span data-i18n="k_open">Open</span> console.mistral.ai/api-keys ↗</a></article></div>
+  <p data-i18n="paste_tip" class="callout ok reveal">Then: open <code>http://localhost:8787</code> → <b>Setup</b> → paste the key in its card → <b>Test</b> (✓) → <b>Save keys</b>. It works instantly, no restart.</p>
+  <h3 data-i18n="lim_h" class="h3 reveal">Free limits (checked Nov 2026)</h3>
+  <div class="tablewrap glass reveal">
+   <table>
+    <thead><tr><th><span data-i18n="lim_c1">Provider</span></th><th><span data-i18n="lim_c2">Free limit</span></th><th><span data-i18n="lim_c3">Good to know</span></th></tr></thead>
+    <tbody>
+     <tr><td><span class="pd" style="--c:#f55036"></span>Groq</td><td><span data-i18n="lim_groq">30 req/min · 1,000 req/day per model</span></td><td><span data-i18n="lim_groq_n">Fastest. 200K tokens/day per model.</span></td></tr>
+     <tr><td><span class="pd" style="--c:#4f8bff"></span>Gemini</td><td><span data-i18n="lim_gem">Shown in AI Studio (per model)</span></td><td><span data-i18n="lim_gem_n">Resets at midnight Pacific. Free tier prompts may be used by Google to improve products.</span></td></tr>
+     <tr><td><span class="pd" style="--c:#a78bfa"></span>OpenRouter</td><td><span data-i18n="lim_or">20 req/min · 50 req/day (whole account)</span></td><td><span data-i18n="lim_or_n">1,000/day once you have ever bought $10 of credits.</span></td></tr>
+     <tr><td><span class="pd" style="--c:#ff9f1c"></span>Mistral</td><td><span data-i18n="lim_mi">Monthly free usage (see your Limits page)</span></td><td><span data-i18n="lim_mi_n">Good all-rounder model: mistral-small.</span></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p data-i18n="card_warn" class="callout warn reveal">⚠️ <b>Never add a credit card</b> to these free accounts. Without a card, hitting a limit just pauses that provider: nothing can be charged.</p>
+ </div>
+</section>
+
+<section id="pc" class="sec">
+ <div class="wrap">
+  <p data-i18n="pc_eyebrow" class="eyebrow reveal">PC setup</p>
+  <h2 data-i18n="pc_h" class="reveal">Run it on Windows, Mac or Linux</h2>
+  <p data-i18n="pc_p" class="lead reveal">Needs Node.js 20 or newer. The start script tries to install it for you if it is missing.</p>
+  <div class="tabs reveal" role="tablist" data-tabs="pc">
+   <button role="tab" class="on" data-tab="win">🪟 <span data-i18n="tab_win">Windows</span></button><button role="tab" data-tab="mac">🍎🐧 <span data-i18n="tab_mac">Mac / Linux</span></button>
+  </div>
+  <div class="panel glass reveal" data-panel="pc:win">
+   <ol class="timeline"><li><span class="num">1</span><div><span data-i18n="win1">On GitHub click <b>Code → Download ZIP</b>, then right-click the ZIP → <b>Extract All</b>.</span></div></li><li><span class="num">2</span><div><span data-i18n="win2">Open the folder and double-click <b>start.bat</b>. (No Node.js? It installs it with winget, or get it from nodejs.org.)</span></div></li><li><span class="num">3</span><div><span data-i18n="win3">Your browser opens <b>http://localhost:8787</b> on the Setup page. Paste your keys → Test → Save.</span></div></li><li><span class="num">4</span><div><span data-i18n="win4">Keep the black window open while you use it. Close it to stop.</span></div></li></ol>
+  </div>
+  <div class="panel glass" data-panel="pc:mac">
+   <ol class="timeline"><li><span class="num">1</span><div><span data-i18n="mac1">Open Terminal and run:</span><div class="codebox"><pre><code>git clone https://github.com/shanir01/SangamAI.git
+cd SangamAI
+sh start.sh</code></pre><button class="copy" type="button" data-copy><span data-i18n="copy">Copy</span></button></div></div></li><li><span class="num">2</span><div><span data-i18n="mac2">The browser opens <b>http://localhost:8787</b>. Paste your keys → Test → Save.</span></div></li><li><span class="num">3</span><div><span data-i18n="mac3">Stop with <b>Ctrl + C</b>. Start again any time with <code>sh start.sh</code>.</span></div></li></ol>
+  </div>
+ </div>
+</section>
+
+<section id="mobile" class="sec">
+ <div class="wrap mobgrid">
+  <div>
+   <p data-i18n="mob_eyebrow" class="eyebrow reveal">Mobile setup</p>
+   <h2 data-i18n="mob_h" class="reveal">Run it on your Android phone (Termux)</h2>
+   <p data-i18n="mob_p" class="lead reveal">Your phone becomes your own AI server. Takes about 5 minutes the first time.</p>
+   <ol class="timeline"><li class="reveal" style="--d:0ms"><span class="num">1</span><div><span data-i18n="m0">Install <b>F-Droid</b> from <b>f-droid.org</b>, then install <b>Termux</b> from F-Droid. (The Play Store version is outdated, don’t use it.)</span></div></li><li class="reveal" style="--d:50ms"><span class="num">2</span><div><span data-i18n="m1">Open Termux and update packages (press Enter if it asks anything):</span><div class="codebox"><pre><code>pkg update -y &amp;&amp; pkg upgrade -y</code></pre><button class="copy" type="button" data-copy><span data-i18n="copy">Copy</span></button></div></div></li><li class="reveal" style="--d:100ms"><span class="num">3</span><div><span data-i18n="m2">Install git and download the router:</span><div class="codebox"><pre><code>pkg install git -y
+git clone https://github.com/shanir01/SangamAI.git</code></pre><button class="copy" type="button" data-copy><span data-i18n="copy">Copy</span></button></div></div></li><li class="reveal" style="--d:150ms"><span class="num">4</span><div><span data-i18n="m3">Start it. The first run installs Node.js automatically:</span><div class="codebox"><pre><code>cd SangamAI &amp;&amp; sh start.sh</code></pre><button class="copy" type="button" data-copy><span data-i18n="copy">Copy</span></button></div></div></li><li class="reveal" style="--d:200ms"><span class="num">5</span><div><span data-i18n="m4">Chrome opens <b>http://localhost:8787</b>. Paste your free keys → Test → Save keys.</span></div></li><li class="reveal" style="--d:250ms"><span class="num">6</span><div><span data-i18n="m5">Use <code>http://localhost:8787/v1</code> in any AI app on the same phone. Keep Termux running (the script holds a wake-lock).</span></div></li><li class="reveal" style="--d:300ms"><span class="num">7</span><div><span data-i18n="m6">Next time, just open Termux and run:</span><div class="codebox"><pre><code>cd SangamAI &amp;&amp; sh start.sh</code></pre><button class="copy" type="button" data-copy><span data-i18n="copy">Copy</span></button></div></div></li></ol>
+   <p data-i18n="mob_tip" class="callout reveal">💡 Tip: if Android closes Termux in the background, open phone Settings → Apps → Termux → Battery → <b>Unrestricted</b>.</p>
+  </div>
+  <div class="phone reveal" aria-hidden="true">
+   <div class="screen">
+    <div class="tline"><span class="p">$</span> sh start.sh</div>
+    <div class="tline dim">  SangamAI · All free AI APIs, one endpoint</div>
+    <div class="tline dim">  Open:  http://localhost:8787</div>
+    <div class="tline ok">  ✓ listening · providers: groq, gemini</div>
+    <div class="tline"><span class="p">→</span> served · provider: groq · 412 ms</div>
+    <div class="tline warn">  upstream 429 · groq · cooldown 30s</div>
+    <div class="tline ok">  ✓ fallback → gemini · 638 ms</div>
+    <div class="tline"><span class="p">$</span> <span class="cur">▍</span></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="connect" class="sec">
+ <div class="wrap">
+  <p data-i18n="con_eyebrow" class="eyebrow reveal">Connect your app</p>
+  <h2 data-i18n="con_h" class="reveal">Works with anything that speaks OpenAI</h2>
+  <p data-i18n="con_p" class="lead reveal">Change only two settings in your app. The router does the rest.</p>
+  <div class="settings">
+   <div class="set glass reveal"><small data-i18n="cs_base">Base URL</small><div class="kv"><code>http://localhost:8787/v1</code><button class="copy mini" type="button" data-copytext="http://localhost:8787/v1"><span data-i18n="copy">Copy</span></button></div></div>
+   <div class="set glass reveal" style="--d:80ms"><small data-i18n="cs_key">API key</small><div class="kv"><span data-i18n="cs_key_v">anything, e.g. <code>local</code></span></div></div>
+   <div class="set glass reveal" style="--d:160ms"><small data-i18n="cs_model">Model</small><div class="kv"><code>auto</code><button class="copy mini" type="button" data-copytext="auto"><span data-i18n="copy">Copy</span></button></div></div>
+  </div>
+  <div class="tabs reveal" role="tablist" data-tabs="con">
+   <button role="tab" class="on" data-tab="py">🐍 Python</button><button role="tab" data-tab="node">🟩 Node.js</button><button role="tab" data-tab="curl">⌨️ curl</button><button role="tab" data-tab="n8n">⚙️ n8n</button>
+  </div>
+  <div class="panel reveal" data-panel="con:py"><div class="codebox"><pre><code>pip install openai</code></pre><button class="copy" type="button" data-copy><span data-i18n="copy">Copy</span></button></div><div class="codebox"><pre><code>from openai import OpenAI
+
+client = OpenAI(base_url=&quot;http://localhost:8787/v1&quot;, api_key=&quot;local&quot;)
+reply = client.chat.completions.create(
+    model=&quot;auto&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Namaste! Explain AI in one line.&quot;}],
+)
+print(reply.choices[0].message.content)</code></pre><button class="copy" type="button" data-copy><span data-i18n="copy">Copy</span></button></div></div>
+  <div class="panel" data-panel="con:node"><div class="codebox"><pre><code>npm install openai</code></pre><button class="copy" type="button" data-copy><span data-i18n="copy">Copy</span></button></div><div class="codebox"><pre><code>import OpenAI from &quot;openai&quot;;
+
+const client = new OpenAI({ baseURL: &quot;http://localhost:8787/v1&quot;, apiKey: &quot;local&quot; });
+const reply = await client.chat.completions.create({
+  model: &quot;auto&quot;,
+  messages: [{ role: &quot;user&quot;, content: &quot;Namaste! Explain AI in one line.&quot; }],
+});
+console.log(reply.choices[0].message.content);</code></pre><button class="copy" type="button" data-copy><span data-i18n="copy">Copy</span></button></div></div>
+  <div class="panel" data-panel="con:curl"><div class="codebox"><pre><code>curl http://localhost:8787/v1/chat/completions \
+  -H &quot;Authorization: Bearer local&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;model&quot;:&quot;auto&quot;,&quot;messages&quot;:[{&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;Namaste!&quot;}]}&#x27;</code></pre><button class="copy" type="button" data-copy><span data-i18n="copy">Copy</span></button></div></div>
+  <div class="panel glass" data-panel="con:n8n"><ol class="timeline"><li><span class="num">1</span><div><span data-i18n="n8n1">In n8n: <b>Credentials → New → OpenAI API</b></span></div></li><li><span class="num">2</span><div><span data-i18n="n8n2">API Key: <code>local</code> · Base URL: <code>http://localhost:8787/v1</code></span></div></li><li><span class="num">3</span><div><span data-i18n="n8n3">In the OpenAI Chat Model node, set the model <b>By ID</b> to <code>auto</code>.</span></div></li><li><span class="num">4</span><div><span data-i18n="n8n4">n8n in Docker? Use <code>http://host.docker.internal:8787/v1</code> and start the router with <code>HOST=0.0.0.0</code> + a <code>MASTER_KEY</code>.</span></div></li></ol></div>
+  <h3 data-i18n="models_h" class="h3 reveal">Models you can ask for</h3>
+  <div class="models reveal">
+   <div class="glass"><code>auto</code><span data-i18n="mo_auto">rotates all providers, with fallback (default)</span></div>
+   <div class="glass"><code>fast</code><span data-i18n="mo_fast">small, quick models first</span></div>
+   <div class="glass"><code>smart</code><span data-i18n="mo_smart">bigger models first</span></div>
+   <div class="glass"><code>long-context</code><span data-i18n="mo_long">Gemini first (1M-token context)</span></div>
+  </div>
+ </div>
+</section>
+
+<section id="faq" class="sec">
+ <div class="wrap narrow">
+  <p data-i18n="nav_faq" class="eyebrow reveal">FAQ</p>
+  <h2 data-i18n="faq_h" class="reveal">Questions, answered</h2>
+  <div class="faq"><details class="glass reveal"><summary><span data-i18n="q0">Is it really unlimited?</span></summary><p data-i18n="a0">No. Every provider has a daily free limit. SangamAI adds those limits together and switches automatically, so you get a lot more than one key gives, for ₹0.</p></details><details class="glass reveal"><summary><span data-i18n="q1">Does it cost anything?</span></summary><p data-i18n="a1">No. The code is free (MIT), the keys are free, and it runs on your own PC or phone. Just don’t add a card to the provider accounts.</p></details><details class="glass reveal"><summary><span data-i18n="q2">Where are my keys stored?</span></summary><p data-i18n="a2">Only on your device, in <code>keys.local.json</code> inside the folder (it is git-ignored). The dashboard shows only the first and last 4 characters. Nothing is sent to us.</p></details><details class="glass reveal"><summary><span data-i18n="q3">Which key should I get first?</span></summary><p data-i18n="a3">Groq: the biggest daily free limit and very fast. Add Gemini next for long documents.</p></details><details class="glass reveal"><summary><span data-i18n="q4">I get “503 no_api_keys”. What now?</span></summary><p data-i18n="a4">No key is saved yet. Open <code>http://localhost:8787</code> → Setup, paste a key, press Test, then Save keys.</p></details><details class="glass reveal"><summary><span data-i18n="q5">Test shows 401. Why?</span></summary><p data-i18n="a5">The key is wrong or got cut while copying. Copy it again from the provider’s page.</p></details><details class="glass reveal"><summary><span data-i18n="q6">Can other devices on my Wi-Fi use it?</span></summary><p data-i18n="a6">Yes: start it with <code>HOST=0.0.0.0</code> and set a <code>MASTER_KEY</code> (required for safety), then use <code>http://&lt;your-local-IP&gt;:8787/v1</code>.</p></details><details class="glass reveal"><summary><span data-i18n="q7">Can I host it online for my friends?</span></summary><p data-i18n="a7">Yes, with Server mode (off by default): user keys with daily token limits and a Render one-click deploy. All users share <b>your</b> free limits, so read each provider’s terms first.</p></details></div>
+ </div>
+</section>
+
+<section class="sec">
+ <div class="wrap">
+  <div class="starcta glass reveal">
+   <h2 data-i18n="cta_h">Like it? Give it a ⭐</h2>
+   <p data-i18n="cta_p">A star helps more people find free AI. It takes one tap and means a lot.</p>
+   <div class="ctas center">
+    <a class="btn pri" href="https://github.com/shanir01/SangamAI" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> <span data-i18n="cta_star">Star on GitHub</span></a>
+    <a class="btn" href="https://twitter.com/intent/tweet?text=SangamAI%3A%20all%20free%20AI%20APIs%2C%20one%20endpoint.%20Combines%20Gemini%2C%20Groq%2C%20OpenRouter%20%26%20Mistral%20free%20tiers%20into%20one%20OpenAI-compatible%20API%20with%20auto-fallback.%20Runs%20on%20your%20PC%20or%20Android%20phone.%20%F0%9F%86%93%F0%9F%94%80%20%23FreeAI%20%23LLM%20%23OpenSource&amp;url=https%3A//github.com/shanir01/SangamAI" target="_blank" rel="noopener">𝕏 <span data-i18n="cta_share">Share on X</span></a>
+   </div>
+   <p class="tags">#FreeAI #LLM #OpenSource #Gemini #Groq #OpenRouter #Termux #NodeJS #AItools</p>
+  </div>
+ </div>
+</section>
+</main>
+<footer class="foot">
+ <div class="wrap">
+  <p data-i18n="credit">Made with ❤️ by <b>Nishu</b> (Nirbhay Sharma). Based on <a href="https://github.com/waseemnasir2k26/free-llm-router" target="_blank" rel="noopener">free-llm-router</a> by Waseem Nasir (MIT License).</p>
+  <p data-i18n="foot_note" class="small">Not affiliated with Google, Groq, OpenRouter or Mistral. Free limits change; check each provider’s page.</p>
+  <p class="small"><a href="https://github.com/shanir01/SangamAI" target="_blank" rel="noopener">GitHub</a> · <a href="https://github.com/shanir01/SangamAI/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a> · <a href="#top">↑ Top</a></p>
+ </div>
+</footer>
+<script src="assets/app.js" defer></script>
+</body>
+</html>
