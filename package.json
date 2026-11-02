@@ -1,0 +1,42 @@
+{
+  "name": "freellm-router",
+  "version": "2.0.0",
+  "description": "One OpenAI-compatible API over many free-tier LLM APIs (Gemini, Groq, OpenRouter free models, Mistral, Cerebras trial) with auto-fallback, round-robin, token counter, dashboard and multi-user API keys. Zero dependencies.",
+  "main": "src/server.js",
+  "bin": {
+    "freellm-router": "src/server.js"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test",
+    "demo": "node examples/demo-mock.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "llm",
+    "openai-compatible",
+    "llm-router",
+    "free-llm",
+    "gemini",
+    "groq",
+    "openrouter",
+    "mistral",
+    "cerebras",
+    "failover",
+    "api-gateway",
+    "multi-user",
+    "termux"
+  ],
+  "author": "Nirbhay Sharma (NISHU)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shanir01/FreeLLM-Router.git"
+  },
+  "homepage": "https://github.com/shanir01/FreeLLM-Router#readme",
+  "contributors": [
+    "Waseem Nasir <info@skynetjoe.com> (original free-llm-router, MIT)"
+  ]
+}

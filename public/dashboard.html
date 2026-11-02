@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0d14">
+<title>FreeLLM Router</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%2310b981'/><path d='M18 22h28M18 32h20M18 42h12' stroke='%23052e22' stroke-width='6' stroke-linecap='round'/><circle cx='46' cy='42' r='6' fill='%23052e22'/></svg>">
+<style>
+:root{
+  --bg:#0a0d14;--bg2:#0f1420;--card:#121927;--card2:#161f30;--line:#1f2a3d;--line2:#2a3850;
+  --txt:#e8eef8;--mut:#8a9bb5;--dim:#5f6f88;
+  --acc:#10b981;--acc2:#34d399;--blue:#60a5fa;--vio:#a78bfa;--amb:#fbbf24;--red:#f87171;
+  --r:16px;--shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{min-height:100vh;background:radial-gradient(1200px 600px at 80% -10%,rgba(16,185,129,.10),transparent 60%),radial-gradient(900px 500px at -10% 10%,rgba(96,165,250,.08),transparent 60%),var(--bg)}
+a{color:var(--acc2);text-decoration:none}
+code,.mono{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Consolas,monospace}
+.hide{display:none!important}
+/* layout */
+.shell{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}
+aside{position:sticky;top:0;height:100vh;padding:22px 16px;border-right:1px solid var(--line);background:rgba(10,13,20,.6);backdrop-filter:blur(10px)}
+.brand{display:flex;align-items:center;gap:10px;margin:0 6px 26px}
+.logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--acc),#059669);display:grid;place-items:center;box-shadow:0 6px 20px rgba(16,185,129,.35)}
+.logo svg{width:20px;height:20px}
+.brand b{font-size:16px;letter-spacing:.2px;display:block}.brand small{color:var(--dim);font-size:12px}
+nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin:2px 0;border-radius:11px;color:var(--mut);font-weight:500}
+nav a svg{width:18px;height:18px;flex:none}
+nav a:hover{background:var(--card);color:var(--txt)}
+nav a.on{background:linear-gradient(90deg,rgba(16,185,129,.18),rgba(16,185,129,.04));color:var(--txt);box-shadow:inset 2px 0 0 var(--acc)}
+.side-foot{position:absolute;bottom:18px;left:16px;right:16px;font-size:12px;color:var(--dim)}
+.side-foot .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--acc);margin-right:6px;box-shadow:0 0 10px var(--acc)}
+main{padding:28px 32px 110px;max-width:1180px;width:100%;min-width:0}
+.grid>*{min-width:0}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+h1{font-size:26px;margin:0;letter-spacing:-.3px}.sub{color:var(--mut);margin:4px 0 0}
+.mtop{display:none}
+/* cards */
+.card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.grid{display:grid;gap:14px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.kpi .l{color:var(--mut);font-size:13px}.kpi .v{font-size:28px;font-weight:700;letter-spacing:-.5px;margin-top:2px}.kpi .s{color:var(--dim);font-size:12px}
+.sec{font-size:15px;font-weight:600;margin:26px 0 12px;display:flex;align-items:center;gap:8px}
+.sec .mut{font-weight:400}
+.mut{color:var(--mut)}.dim{color:var(--dim)}.small{font-size:13px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;border:1px solid var(--line2);color:var(--mut);white-space:nowrap}
+.chip i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.chip.live{color:var(--acc2);border-color:rgba(52,211,153,.35);background:rgba(16,185,129,.08)}
+.chip.warn{color:var(--amb);border-color:rgba(251,191,36,.35);background:rgba(251,191,36,.07)}
+.chip.off{color:var(--dim)}.chip.bad{color:var(--red);border-color:rgba(248,113,113,.35)}
+/* buttons/inputs */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--card2);color:var(--txt);border:1px solid var(--line2);border-radius:11px;padding:9px 14px;font:inherit;font-weight:600;font-size:14px;cursor:pointer;transition:.15s}
+.btn:hover{border-color:var(--dim)}.btn:active{transform:scale(.98)}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:#03241a}.btn.pri:hover{background:var(--acc2)}
+.btn.ghost{background:transparent}.btn.sm{padding:6px 10px;font-size:13px;border-radius:9px}
+.btn:disabled{opacity:.5;cursor:default}
+input,textarea,select{width:100%;background:#0b111c;color:var(--txt);border:1px solid var(--line2);border-radius:11px;padding:11px 12px;font:inherit;outline:none;transition:.15s}
+input:focus,textarea:focus,select:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(16,185,129,.15)}
+label.f{display:block;font-size:13px;color:var(--mut);margin-bottom:6px}
+/* provider cards (setup) */
+.pc{position:relative;overflow:hidden}
+.pc .hd{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.pico{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:15px;color:#fff;flex:none}
+.pc h3{margin:0;font-size:16px}.pc .note{font-size:12.5px;color:var(--mut)}
+.pc .row{display:flex;gap:8px}.pc .row input{flex:1;min-width:0}
+.pc .foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;font-size:13px}
+.status-dot{width:10px;height:10px;border-radius:50%;background:var(--dim);position:absolute;top:20px;right:18px}
+.status-dot.ok{background:var(--acc);box-shadow:0 0 0 4px rgba(16,185,129,.15),0 0 14px var(--acc)}
+.status-dot.bad{background:var(--red);box-shadow:0 0 0 4px rgba(248,113,113,.15)}
+.pc.disabled{opacity:.72}
+.msg{font-size:12.5px;margin-top:8px;min-height:18px}.msg.ok{color:var(--acc2)}.msg.bad{color:var(--red)}
+/* bars */
+.bars .b{display:grid;grid-template-columns:110px 1fr 120px;align-items:center;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.bars .b:last-child{border:0}
+.track{height:10px;background:#0b111c;border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.fill{height:100%;border-radius:99px;transition:width .6s ease}
+.bars .n{display:flex;align-items:center;gap:8px;font-weight:600;text-transform:capitalize;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.bars .n i{width:9px;height:9px;border-radius:50%;flex:none}
+.bars .v{text-align:right;font-variant-numeric:tabular-nums;font-size:13px;color:var(--mut)}
+/* log */
+.log{max-height:360px;overflow:auto}
+.ev{display:flex;gap:10px;align-items:flex-start;padding:9px 2px;border-bottom:1px solid var(--line);font-size:13.5px}
+.ev:last-child{border:0}
+.ev .ic{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;flex:none;font-size:13px;font-weight:700}
+.ev .ic.ok{background:rgba(16,185,129,.15);color:var(--acc2)}.ev .ic.fb{background:rgba(251,191,36,.12);color:var(--amb)}.ev .ic.x{background:rgba(248,113,113,.12);color:var(--red)}
+.ev .t{margin-left:auto;color:var(--dim);font-size:12px;white-space:nowrap}
+/* table */
+table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--dim);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+.scroll{overflow-x:auto}
+/* chat */
+.chat{display:flex;flex-direction:column;height:calc(100vh - 190px);min-height:440px;padding:0;overflow:hidden}
+.chat-head{display:flex;gap:10px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.chat-head select{width:auto;min-width:200px;padding:8px 10px}
+.msgs{flex:1;overflow:auto;padding:18px 16px;display:flex;flex-direction:column;gap:14px}
+.bub{max-width:82%;padding:11px 14px;border-radius:16px;white-space:pre-wrap;word-wrap:break-word;line-height:1.55}
+.bub.me{align-self:flex-end;background:linear-gradient(135deg,#0f766e,#059669);border-bottom-right-radius:5px}
+.bub.ai{align-self:flex-start;background:var(--card2);border:1px solid var(--line);border-bottom-left-radius:5px}
+.meta{font-size:11.5px;color:var(--dim);margin-top:6px;display:flex;gap:8px;align-items:center}
+.empty{margin:auto;text-align:center;color:var(--mut);max-width:420px}
+.empty .sugs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.composer{display:flex;gap:10px;padding:12px;border-top:1px solid var(--line);background:var(--bg2)}
+.composer textarea{resize:none;height:48px;max-height:140px}
+/* connect */
+.urlbox{display:flex;align-items:center;gap:10px;background:#0b111c;border:1px solid var(--line2);border-radius:12px;padding:6px 6px 6px 14px}
+.urlbox code{flex:1;font-size:15px;overflow:auto;white-space:nowrap;color:var(--acc2)}
+.tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.tabs button{background:transparent;border:1px solid var(--line2);color:var(--mut);border-radius:99px;padding:6px 13px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.tabs button.on{background:var(--txt);color:var(--bg);border-color:var(--txt)}
+pre.code{position:relative;margin:0;background:#070a10;border:1px solid var(--line);border-radius:12px;padding:16px;overflow:auto;font-size:13px;line-height:1.6;color:#cfe3ff}
+pre.code .cp{position:absolute;top:10px;right:10px}
+.kv{display:grid;grid-template-columns:140px 1fr;gap:8px 14px;font-size:14px}.kv div:nth-child(odd){color:var(--mut)}
+.steps{counter-reset:s;margin:0;padding:0;list-style:none}
+.steps li{counter-increment:s;position:relative;padding:0 0 14px 40px}
+.steps li:before{content:counter(s);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--card2);border:1px solid var(--line2);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--acc2)}
+/* banner */
+.banner{display:flex;gap:14px;align-items:center;padding:14px 16px;border-radius:14px;border:1px solid rgba(16,185,129,.3);background:linear-gradient(90deg,rgba(16,185,129,.12),rgba(16,185,129,.02));margin-bottom:18px}
+.banner.warn{border-color:rgba(251,191,36,.3);background:linear-gradient(90deg,rgba(251,191,36,.10),rgba(251,191,36,.01))}
+.banner .bi{font-size:22px}
+/* toast */
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--txt);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;transition:.25s;pointer-events:none;z-index:50}
+#toast.show{opacity:1;transform:translateX(-50%)}
+/* login */
+.login{max-width:400px;margin:14vh auto;padding:28px}
+.demo-tag{font-size:11px;font-weight:700;letter-spacing:.6px;color:#2b1d00;background:var(--amb);padding:2px 8px;border-radius:6px;margin-left:8px;vertical-align:middle}
+/* mobile */
+@media (max-width:900px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  aside{position:fixed;top:auto;bottom:0;left:0;right:0;height:auto;padding:6px 8px calc(6px + env(safe-area-inset-bottom));border-right:0;border-top:1px solid var(--line);z-index:20;background:rgba(10,13,20,.92)}
+  aside .brand,.side-foot{display:none}
+  nav{display:flex;justify-content:space-around}
+  nav a{flex-direction:column;gap:3px;padding:7px 4px;font-size:11px;margin:0;flex:1;text-align:center}
+  nav a.on{background:transparent;box-shadow:none;color:var(--acc2)}
+  main{padding:16px 14px 100px}
+  .mtop{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .mtop .logo{width:32px;height:32px}
+  .g4{grid-template-columns:repeat(2,1fr)}.g3,.g2{grid-template-columns:1fr}
+  h1{font-size:22px}
+  .kpi .v{font-size:23px}
+  .bars .b{grid-template-columns:96px minmax(0,1fr) 96px;gap:8px;font-size:13.5px}
+  .urlbox code{font-size:13.5px}
+  .kpi{padding:14px}
+  .chat{height:calc(100vh - 210px)}
+  .bub{max-width:90%}
+  .kv{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="toast"></div>
+
+<div id="loginView" class="hide">
+  <div class="card login">
+    <div class="brand" style="margin:0 0 18px"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#052e22" stroke-width="2.6" stroke-linecap="round"><path d="M5 7h14M5 12h9M5 17h5"/><circle cx="18" cy="17" r="2.4" fill="#052e22"/></svg></div><div><b>FreeLLM Router</b><small>by Nishu</small></div></div>
+    <h2 style="margin:0 0 6px;font-size:19px">Admin login</h2>
+    <p class="mut small" style="margin:0 0 16px">This router is protected. Enter your <code>ADMIN_PASSWORD</code> (or <code>MASTER_KEY</code>).</p>
+    <input id="pw" type="password" placeholder="Password" autocomplete="current-password">
+    <button class="btn pri" id="loginBtn" style="width:100%;margin-top:12px">Unlock</button>
+    <p id="loginErr" class="msg bad"></p>
+  </div>
+</div>
+
+<div class="shell hide" id="app">
+  <aside>
+    <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#052e22" stroke-width="2.6" stroke-linecap="round"><path d="M5 7h14M5 12h9M5 17h5"/><circle cx="18" cy="17" r="2.4" fill="#052e22"/></svg></div><div><b>FreeLLM Router</b><small>by Nishu</small></div></div>
+    <nav id="nav">
+      <a href="#setup" data-v="setup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.6 7.6a5.5 5.5 0 1 1-7.8 7.8 5.5 5.5 0 0 1 7.8-7.8zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>Setup</a>
+      <a href="#dashboard" data-v="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>Dashboard</a>
+      <a href="#chat" data-v="chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Playground</a>
+      <a href="#connect" data-v="connect"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>Connect</a>
+      <a href="#users" data-v="users" id="navUsers" class="hide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M17 3a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/></svg>Users</a>
+    </nav>
+    <div class="side-foot"><span class="dot"></span><span id="footTxt">Running on localhost</span></div>
+  </aside>
+
+  <main>
+    <div class="mtop"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#052e22" stroke-width="2.6" stroke-linecap="round"><path d="M5 7h14M5 12h9M5 17h5"/><circle cx="18" cy="17" r="2.4" fill="#052e22"/></svg></div><b>FreeLLM Router</b><span class="dim small">by Nishu</span><span id="mDemo"></span></div>
+
+    <!-- SETUP -->
+    <section id="v-setup">
+      <div class="top"><div><h1>Setup <span class="demoTag"></span></h1><p class="sub">Paste your own free API keys. They are saved on this computer only, never uploaded.</p></div>
+        <button class="btn pri" id="saveAll">Save keys</button></div>
+      <div id="setupBanner"></div>
+      <div class="grid g3" id="pcards"></div>
+      <p class="dim small" style="margin-top:16px">Free limits change often, so check each provider's page. Keys saved here go into <code>keys.local.json</code> next to the app. Keys in <code>.env</code> work too.</p>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="v-dashboard" class="hide">
+      <div class="top"><div><h1>Dashboard <span class="demoTag"></span></h1><p class="sub">Today's usage across your free providers (day = UTC).</p></div><span class="chip live" id="liveChip"><i></i>Live</span></div>
+      <div class="grid g4" id="kpis"></div>
+      <div class="grid g2" style="margin-top:14px">
+        <div class="card"><div class="sec" style="margin-top:0">Tokens today by provider</div><div class="bars" id="bars"></div></div>
+        <div class="card"><div class="sec" style="margin-top:0">Fallback log <span class="mut small">· newest first</span></div><div class="log" id="log"></div></div>
+      </div>
+      <div class="sec">Providers</div>
+      <div class="card scroll"><table id="ptable"></table></div>
+    </section>
+
+    <!-- PLAYGROUND -->
+    <section id="v-chat" class="hide">
+      <div class="top"><div><h1>Playground <span class="demoTag"></span></h1><p class="sub">Chat through your router. Each answer shows which provider replied.</p></div></div>
+      <div class="card chat">
+        <div class="chat-head">
+          <select id="model"></select>
+          <label class="small mut" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="stream" checked style="width:auto"> Stream</label>
+          <button class="btn sm ghost" id="clearChat" style="margin-left:auto">Clear</button>
+        </div>
+        <div class="msgs" id="msgs"></div>
+        <div class="composer"><textarea id="prompt" placeholder="Type a message…  (Enter to send)"></textarea><button class="btn pri" id="send">Send</button></div>
+      </div>
+    </section>
+
+    <!-- CONNECT -->
+    <section id="v-connect" class="hide">
+      <div class="top"><div><h1>Connect your app <span class="demoTag"></span></h1><p class="sub">Any app that works with OpenAI works with your router. Change two settings.</p></div></div>
+      <div class="grid g2">
+        <div class="card">
+          <label class="f">Base URL</label>
+          <div class="urlbox"><code id="baseUrl"></code><button class="btn sm" data-copy="#baseUrl">Copy</button></div>
+          <label class="f" style="margin-top:14px">API key</label>
+          <div class="urlbox"><code id="apiKeyHint"></code><button class="btn sm" id="copyKeyBtn">Copy</button></div>
+          <label class="f" style="margin-top:14px">Model</label>
+          <div class="urlbox"><code>auto</code><button class="btn sm" data-copytext="auto">Copy</button></div>
+          <p class="dim small" style="margin:12px 0 0"><code>auto</code> rotates between all your providers. Also: <code>fast</code>, <code>smart</code>, <code>long-context</code>, or one exact model.</p>
+        </div>
+        <div class="card">
+          <div class="sec" style="margin-top:0">Where to paste it</div>
+          <ol class="steps small">
+            <li><b>n8n</b>: Credentials → OpenAI → API Key + <i>Base URL</i></li>
+            <li><b>VS Code (Cline / Continue / Roo)</b>: provider "OpenAI Compatible" → Base URL + key + model <code>auto</code></li>
+            <li><b>LangChain / LlamaIndex</b>: <code>base_url=</code> + <code>api_key=</code></li>
+            <li><b>Your own website or bot</b>: use the code on the right ↓</li>
+          </ol>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <div class="tabs" id="codeTabs"><button data-l="py" class="on">Python</button><button data-l="js">Node.js</button><button data-l="curl">curl</button><button data-l="win">Windows curl</button></div>
+        <pre class="code"><button class="btn sm cp" id="copyCode">Copy</button><code id="code"></code></pre>
+      </div>
+    </section>
+
+    <!-- USERS (server mode) -->
+    <section id="v-users" class="hide">
+      <div class="top"><div><h1>Users <span class="demoTag"></span></h1><p class="sub">Server mode: give other people their own key with a daily token limit.</p></div></div>
+      <div class="card">
+        <div class="grid g4" style="align-items:end">
+          <div><label class="f">Name</label><input id="uName" placeholder="Rahul"></div>
+          <div><label class="f">Email (optional)</label><input id="uEmail" placeholder="rahul@mail.com"></div>
+          <div><label class="f">Daily token limit</label><input id="uQuota" type="number" min="1" placeholder="50000"></div>
+          <div><button class="btn pri" id="uCreate" style="width:100%">Create key</button></div>
+        </div>
+        <div id="newKey" class="hide banner" style="margin:14px 0 0"><span class="bi">🔑</span><div style="flex:1;min-width:0"><div class="small mut">Copy this key now. It is shown only once.</div><code id="newKeyVal" style="word-break:break-all"></code></div><button class="btn sm" data-copy="#newKeyVal">Copy</button></div>
+      </div>
+      <div class="card scroll" style="margin-top:14px"><table id="utable"></table>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn sm" id="exportBtn">Download backup</button><label class="btn sm">Restore backup<input id="importFile" type="file" accept=".json" class="hide"></label><span class="dim small" id="signupInfo" style="align-self:center"></span></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+"use strict";
+const DEMO = !!window.FLR_DEMO || new URLSearchParams(location.search).has("demo");
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fmt = (n) => (n == null ? "–" : Number(n).toLocaleString("en-IN"));
+const short = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + "M" : n >= 1e3 ? (n / 1e3).toFixed(1) + "K" : String(n || 0));
+const ago = (iso) => { const s = Math.max(0, (Date.now() - Date.parse(iso)) / 1000); return s < 60 ? Math.round(s) + "s ago" : s < 3600 ? Math.round(s / 60) + "m ago" : Math.round(s / 3600) + "h ago"; };
+const toast = (t) => { const el = $("#toast"); el.textContent = t; el.classList.add("show"); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove("show"), 1800); };
+const copy = (t) => navigator.clipboard.writeText(t).then(() => toast("Copied ✓"), () => toast("Copy failed"));
+
+const PROV = {
+  gemini: { label: "Google Gemini", color: "linear-gradient(135deg,#4285f4,#a142f4)", ini: "G", bar: "#7c8cf8" },
+  groq: { label: "Groq", color: "linear-gradient(135deg,#f55036,#ff8a3d)", ini: "Gq", bar: "#fb7a4b" },
+  openrouter: { label: "OpenRouter", color: "linear-gradient(135deg,#6366f1,#8b5cf6)", ini: "OR", bar: "#a78bfa" },
+  mistral: { label: "Mistral", color: "linear-gradient(135deg,#ff7000,#ffb000)", ini: "M", bar: "#fbbf24" },
+  cerebras: { label: "Cerebras", color: "linear-gradient(135deg,#ef4444,#f97316)", ini: "C", bar: "#f87171" },
+  huggingface: { label: "Hugging Face", short: "HF", color: "linear-gradient(135deg,#f59e0b,#fcd34d)", ini: "HF", bar: "#fcd34d" },
+};
+const P = (n) => PROV[n] || { label: n, color: "linear-gradient(135deg,#334155,#64748b)", ini: n.slice(0, 2).toUpperCase(), bar: "#94a3b8" };
+
+let PW = localStorage.getItem("flr_admin") || "";
+let STATS = null, KEYS = null, timer = null;
+const chatLog = [];
+
+/* ---------------- demo data (static preview, no server) ---------------- */
+const demo = (() => {
+  const now = Date.now(), iso = (s) => new Date(now - s * 1000).toISOString();
+  const keys = { GEMINI_API_KEY: "AIza…x9Qe", GROQ_API_KEY: "gsk_…7Lmn", OPENROUTER_API_KEY: "sk-o…a21c" };
+  const usage = { groq: { requests: 412, failures: 6, total_tokens: 286400, estimated_tokens: 0 }, gemini: { requests: 233, failures: 11, total_tokens: 401250, estimated_tokens: 0 }, openrouter: { requests: 41, failures: 2, total_tokens: 52800, estimated_tokens: 3100 } };
+  const st = {
+    default_alias: "auto", server_mode: true,
+    aliases: { auto: [], fast: [], smart: [], "long-context": [] },
+    providers: {
+      gemini: { status: "live", api_key_env: "GEMINI_API_KEY", has_api_key: true, today: usage.gemini },
+      groq: { status: "live", api_key_env: "GROQ_API_KEY", has_api_key: true, today: usage.groq },
+      openrouter: { status: "cooling_down", api_key_env: "OPENROUTER_API_KEY", has_api_key: true, provider_rpd_remaining: 9, today: usage.openrouter },
+      mistral: { status: "no_key", api_key_env: "MISTRAL_API_KEY", has_api_key: false, today: null },
+      cerebras: { status: "no_key", api_key_env: "CEREBRAS_API_KEY", has_api_key: false, today: null },
+      huggingface: { status: "no_key", api_key_env: "HF_TOKEN", has_api_key: false, today: null },
+    },
+    usage_today: usage,
+    usage_7d: { groq: { total_tokens: 1820400 }, gemini: { total_tokens: 2410900 }, openrouter: { total_tokens: 310200 } },
+    recent: [
+      { at: iso(8), type: "served", alias: "auto", provider: "groq", model: "groq/gpt-oss-120b", after_fallbacks: 0 },
+      { at: iso(31), type: "served", alias: "smart", provider: "gemini", model: "gemini/gemini-3.8-flash", after_fallbacks: 1 },
+      { at: iso(32), type: "fallback", alias: "smart", provider: "openrouter", model: "openrouter/nemotron-3-ultra:free", status: 429, cooldown_s: 60 },
+      { at: iso(95), type: "served", alias: "auto", provider: "gemini", model: "gemini/gemini-3.5-flash-lite", after_fallbacks: 0 },
+      { at: iso(160), type: "served", alias: "fast", provider: "groq", model: "groq/gpt-oss-20b", after_fallbacks: 0 },
+      { at: iso(420), type: "fallback", alias: "auto", provider: "groq", model: "groq/gpt-oss-120b", status: 429, cooldown_s: 12 },
+      { at: iso(421), type: "served", alias: "auto", provider: "gemini", model: "gemini/gemini-3.8-flash", after_fallbacks: 1 },
+    ],
+    models: {
+      "gemini/gemini-3.8-flash": { provider: "gemini", free: true, has_api_key: true, served: 140 }, "gemini/gemini-3.5-flash-lite": { provider: "gemini", free: true, has_api_key: true, served: 93 },
+      "groq/gpt-oss-120b": { provider: "groq", free: true, has_api_key: true, served: 260 }, "groq/gpt-oss-20b": { provider: "groq", free: true, has_api_key: true, served: 152 },
+      "openrouter/gemma-4-31b:free": { provider: "openrouter", free: true, has_api_key: true, served: 41 },
+    },
+    users: { count: 3, signup_enabled: false, max_users: 200, default_quota: 50000 },
+  };
+  const users = [
+    { id: "u1", name: "Rahul", email: "rahul@mail.com", key_hint: "sk-flr-Yu0b…m1Js", enabled: true, quota_tokens_per_day: 50000, used_tokens_today: 31200, via: "admin" },
+    { id: "u2", name: "Asha", email: null, key_hint: "sk-flr-p9Qa…T2kd", enabled: true, quota_tokens_per_day: 100000, used_tokens_today: 12800, via: "admin" },
+    { id: "u3", name: "Ravi", email: null, key_hint: "sk-flr-Lm3x…9wQe", enabled: false, quota_tokens_per_day: 20000, used_tokens_today: 20000, via: "signup" },
+  ];
+  return {
+    async api(method, path, body) {
+      await new Promise((r) => setTimeout(r, 150));
+      if (path === "/admin/api/stats") return st;
+      if (path === "/admin/api/keys" && method === "GET")
+        return { keys: Object.entries(st.providers).map(([p, v]) => ({ provider: p, env: v.api_key_env, set: !!keys[v.api_key_env], hint: keys[v.api_key_env] || null, source: keys[v.api_key_env] ? "setup page" : null, editable: true,
+          link: { gemini: "https://aistudio.google.com/apikey", groq: "https://console.groq.com/keys", openrouter: "https://openrouter.ai/keys", mistral: "https://console.mistral.ai/api-keys", cerebras: "https://cloud.cerebras.ai", huggingface: "https://huggingface.co/settings/tokens" }[p],
+          note: { gemini: "Free tier", groq: "Free plan", openrouter: "Free :free models (50 requests/day per account)", mistral: "Free mode", cerebras: "Trial only: $5 credits, 30 days", huggingface: "Needs PRO or paid credits (off by default)" }[p],
+          free_models: p === "huggingface" ? 0 : 1 })) };
+      if (path === "/admin/api/keys" && method === "POST") { for (const [k, v] of Object.entries(body)) { if (v) keys[k] = v.slice(0, 4) + "…" + v.slice(-4); else delete keys[k]; } return { ok: true, changed: Object.keys(body) }; }
+      if (path === "/admin/api/keys/test") return { ok: true, message: "key works ✓ (demo)" };
+      if (path === "/admin/api/users" && method === "GET") return { users };
+      if (path === "/admin/api/users" && method === "POST") { const u = { id: "u" + Date.now(), name: body.name, email: body.email, key_hint: "sk-flr-dEmO…k3y1", enabled: true, quota_tokens_per_day: body.quota_tokens_per_day || 50000, used_tokens_today: 0 }; users.push(u); return { user: u, key: "sk-flr-dEmOoNlYnOtArEaLkEy00000000k3y1" }; }
+      if (path.startsWith("/admin/api/users/") && method === "PATCH") { const u = users.find((x) => path.endsWith(x.id)); Object.assign(u, body); return { user: u }; }
+      return { ok: true };
+    },
+    async chat(model, text, onDelta) {
+      const reply = /poem|kavita/i.test(text)
+        ? "Steam rises slow from a clay-cup glow,\nGinger and cardamom, stories in tow,\nOne sip of chai and the whole day says hello. ☕"
+        : text.toLowerCase().includes("hindi") || /namaste|kaise/i.test(text)
+        ? "Namaste! 🙏 Main FreeLLM Router ke through jawab de raha hoon. Aaj Groq ki limit bachi thi, isliye isne reply kiya."
+        : "Hi! This answer came through your FreeLLM Router. Groq answered this time; if it hits its free limit, the next provider takes over automatically.";
+      for (const w of reply.split(/(\s+)/)) { await new Promise((r) => setTimeout(r, 28)); onDelta(w); }
+      return { provider: "groq", model: "openai/gpt-oss-120b" };
+    },
+  };
+})();
+
+/* ---------------- API ---------------- */
+async function api(method, path, body) {
+  if (DEMO) return demo.api(method, path, body);
+  const h = { "content-type": "application/json" };
+  if (PW) { h["x-admin-password"] = PW; h.authorization = "Bearer " + PW; }
+  const r = await fetch(path, { method, headers: h, body: body ? JSON.stringify(body) : undefined });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error((j.error && j.error.message) || "HTTP " + r.status), { status: r.status });
+  return j;
+}
+
+/* ---------------- boot / login ---------------- */
+async function boot(silent) {
+  try {
+    STATS = await api("GET", "/admin/api/stats");
+    if (PW) localStorage.setItem("flr_admin", PW);
+    $("#loginView").classList.add("hide");
+    $("#app").classList.remove("hide");
+    if (DEMO) { $$(".demoTag").forEach((e) => (e.innerHTML = '<span class="demo-tag">DEMO</span>')); $("#footTxt").textContent = "Demo with sample data"; }
+    else $("#footTxt").textContent = location.hostname === "localhost" || location.hostname === "127.0.0.1" ? "Running on localhost" : "Running on " + location.host;
+    $("#navUsers").classList.toggle("hide", !STATS.server_mode);
+    await loadKeys();
+    const anyKey = KEYS.some((k) => k.set);
+    route(location.hash.slice(1) || (anyKey ? "dashboard" : "setup"));
+    clearInterval(timer); timer = setInterval(refresh, 8000);
+  } catch (e) {
+    $("#loginView").classList.remove("hide");
+    if (!silent) $("#loginErr").textContent = e.status === 401 ? "Wrong password." : "Cannot reach the router: " + e.message;
+  }
+}
+$("#loginBtn").onclick = () => { PW = $("#pw").value.trim(); boot(); };
+$("#pw").onkeydown = (e) => e.key === "Enter" && $("#loginBtn").click();
+
+function route(v) {
+  if (!["setup", "dashboard", "chat", "connect", "users"].includes(v)) v = "setup";
+  $$("main > section").forEach((s) => s.classList.toggle("hide", s.id !== "v-" + v));
+  $$("#nav a").forEach((a) => a.classList.toggle("on", a.dataset.v === v));
+  if (location.hash.slice(1) !== v) window.history.replaceState(null, "", "#" + v);
+  if (v === "dashboard") renderDash();
+  if (v === "chat") renderModels();
+  if (v === "connect") renderConnect();
+  if (v === "users") loadUsers();
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", () => route(location.hash.slice(1)));
+
+async function refresh() {
+  try { STATS = await api("GET", "/admin/api/stats"); } catch { return; }
+  if (!$("#v-dashboard").classList.contains("hide")) renderDash();
+}
+
+/* ---------------- setup ---------------- */
+async function loadKeys() { KEYS = (await api("GET", "/admin/api/keys")).keys; renderSetup(); }
+function renderSetup() {
+  const n = KEYS.filter((k) => k.set).length;
+  $("#setupBanner").innerHTML = n
+    ? `<div class="banner"><span class="bi">✅</span><div><b>${n} provider${n > 1 ? "s" : ""} ready.</b> <span class="mut">Your local API is live at</span> <code>${esc(DEMO ? "http://localhost:8787" : location.origin)}/v1</code>. <a href="#connect">Connect an app →</a></div></div>`
+    : `<div class="banner warn"><span class="bi">👋</span><div><b>Start here.</b> <span class="mut">Add at least one free key (Gemini or Groq are the quickest). More keys = more free requests per day.</span></div></div>`;
+  $("#pcards").innerHTML = KEYS.map((k) => {
+    const p = P(k.provider), off = k.free_models === 0;
+    return `<div class="card pc ${off ? "disabled" : ""}" data-env="${esc(k.env)}" data-p="${esc(k.provider)}">
+      <span class="status-dot ${k.set ? "ok" : ""}"></span>
+      <div class="hd"><div class="pico" style="background:${p.color}">${esc(p.ini)}</div><div><h3>${esc(p.label)}</h3><div class="note">${esc(k.note)}</div></div></div>
+      <div class="row"><input type="password" placeholder="${k.set ? "Saved: " + esc(k.hint) : "Paste " + esc(k.env)}" ${k.editable ? "" : "disabled"} autocomplete="off" spellcheck="false"><button class="btn sm test">Test</button></div>
+      <div class="msg"></div>
+      <div class="foot"><a href="${esc(k.link || "#")}" target="_blank" rel="noopener">Get free key ↗</a>
+        <span class="dim">${k.set ? (k.source === "environment" ? "set on server" : "saved · " + esc(k.source)) : off ? "off by default" : "not set"}</span>
+        ${k.set && k.editable ? '<button class="btn sm ghost rm" title="Remove key">Remove</button>' : ""}</div>
+    </div>`;
+  }).join("");
+}
+$("#pcards").addEventListener("click", async (e) => {
+  const card = e.target.closest(".pc"); if (!card) return;
+  const msg = $(".msg", card), inp = $("input", card);
+  if (e.target.classList.contains("test")) {
+    msg.className = "msg"; msg.textContent = "Testing…";
+    const r = await api("POST", "/admin/api/keys/test", { provider: card.dataset.p, key: inp.value.trim() || undefined }).catch((err) => ({ ok: false, message: err.message }));
+    msg.className = "msg " + (r.ok ? "ok" : "bad"); msg.textContent = r.message;
+    $(".status-dot", card).className = "status-dot " + (r.ok ? "ok" : "bad");
+  }
+  if (e.target.classList.contains("rm")) {
+    if (!confirm("Remove this key?")) return;
+    await api("POST", "/admin/api/keys", { [card.dataset.env]: "" }); toast("Key removed"); await loadKeys();
+  }
+});
+$("#saveAll").onclick = async () => {
+  const body = {};
+  $$("#pcards .pc").forEach((c) => { const v = $("input", c).value.trim(); if (v) body[c.dataset.env] = v; });
+  if (!Object.keys(body).length) return toast("Paste a key first");
+  await api("POST", "/admin/api/keys", body);
+  toast("Saved ✓ " + Object.keys(body).length + " key(s)");
+  await loadKeys(); STATS = await api("GET", "/admin/api/stats");
+};
+
+/* ---------------- dashboard ---------------- */
+function renderDash() {
+  const s = STATS; if (!s) return;
+  const today = s.usage_today || {};
+  let req = 0, tok = 0, fb = 0;
+  for (const v of Object.values(today)) { req += v.requests || 0; tok += v.total_tokens || 0; fb += v.failures || 0; }
+  const provs = Object.entries(s.providers);
+  const live = provs.filter(([, p]) => p.status === "live").length;
+  const keyed = provs.filter(([, p]) => p.has_api_key).length;
+  $("#kpis").innerHTML = [
+    ["Requests today", fmt(req), "across all providers"],
+    ["Tokens today", short(tok), fmt(tok) + " tokens"],
+    ["Live providers", live + " / " + keyed, keyed ? "with a key" : "add keys in Setup"],
+    ["Fallbacks today", fmt(fb), "auto-switched for you"],
+  ].map(([l, v, sub]) => `<div class="card kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`).join("");
+  const rows = provs.map(([n, p]) => [n, (p.today && p.today.total_tokens) || 0, (p.today && p.today.requests) || 0]).sort((a, b) => b[1] - a[1]);
+  const max = Math.max(1, ...rows.map((r) => r[1]));
+  $("#bars").innerHTML = rows.map(([n, t, r]) => `<div class="b"><div class="n"><i style="background:${P(n).bar}"></i>${esc(P(n).short || n)}</div><div class="track"><div class="fill" style="width:${(100 * t) / max}%;background:${P(n).bar}"></div></div><div class="v">${short(t)} · ${fmt(r)} req</div></div>`).join("");
+  const ev = s.recent || [];
+  $("#log").innerHTML = ev.length ? ev.map((e) => {
+    if (e.type === "served") return `<div class="ev"><div class="ic ok">✓</div><div><b>${esc(e.provider)}</b> answered <span class="mut">${esc(e.alias)}</span>${e.after_fallbacks ? ` <span class="chip warn" style="padding:1px 7px">after ${e.after_fallbacks} fallback</span>` : ""}<div class="dim small mono">${esc(e.model)}</div></div><div class="t">${ago(e.at)}</div></div>`;
+    if (e.type === "fallback") return `<div class="ev"><div class="ic fb">↪</div><div><b>${esc(e.provider)}</b> gave <b>${esc(e.status)}</b>, switched to the next provider${e.cooldown_s ? ` <span class="dim">(resting ${e.cooldown_s}s)</span>` : ""}<div class="dim small mono">${esc(e.model)}</div></div><div class="t">${ago(e.at)}</div></div>`;
+    return `<div class="ev"><div class="ic x">!</div><div>No provider was free for <b>${esc(e.alias)}</b>. All limits used or cooling down.</div><div class="t">${ago(e.at)}</div></div>`;
+  }).join("") : `<div class="dim small" style="padding:20px 0;text-align:center">No requests yet. Try the <a href="#chat">Playground</a>.</div>`;
+  const lbl = { live: ["live", "Live"], no_key: ["off", "No key"], cooling_down: ["warn", "Cooling down"], daily_limit: ["warn", "Daily limit hit"], disabled_paid: ["off", "Off (paid)"] };
+  $("#ptable").innerHTML = `<tr><th>Provider</th><th>Status</th><th>Requests</th><th>Tokens</th><th>Fallbacks</th><th>7 days</th></tr>` + provs.map(([n, p]) => {
+    const t = p.today || {}, [c, l] = lbl[p.status] || ["off", p.status];
+    return `<tr><td><b>${esc(P(n).label)}</b></td><td><span class="chip ${c}"><i></i>${l}</span>${p.provider_rpd_remaining != null ? ` <span class="dim small">${p.provider_rpd_remaining} left today</span>` : ""}</td><td>${fmt(t.requests || 0)}</td><td>${fmt(t.total_tokens || 0)}</td><td>${fmt(t.failures || 0)}</td><td class="mut">${short((s.usage_7d[n] || {}).total_tokens || 0)}</td></tr>`;
+  }).join("");
+}
+
+/* ---------------- playground ---------------- */
+function renderModels() {
+  const sel = $("#model"); if (sel.options.length || !STATS) { renderMsgs(); return; }
+  const al = Object.keys(STATS.aliases || {}), mods = Object.keys(STATS.models || {}).filter((m) => STATS.models[m].free);
+  sel.innerHTML = `<optgroup label="Smart routing">${al.map((a) => `<option value="${esc(a)}">${esc(a)}${a === "auto" ? " (rotate all)" : ""}</option>`).join("")}</optgroup><optgroup label="Exact model">${mods.map((m) => `<option>${esc(m)}</option>`).join("")}</optgroup>`;
+  sel.value = STATS.default_alias || "auto";
+  renderMsgs();
+}
+function renderMsgs() {
+  const box = $("#msgs");
+  if (!chatLog.length) {
+    box.innerHTML = `<div class="empty"><div style="font-size:34px">💬</div><b>Say hello to your router</b><p class="small">Your message goes to the best free provider that has limit left.</p><div class="sugs">${["Namaste! Apna intro do", "Write a 3-line poem about chai", "Explain APIs to a 10 year old"].map((t) => `<button class="btn sm sug">${t}</button>`).join("")}</div></div>`;
+    return;
+  }
+  box.innerHTML = chatLog.map((m) => `<div class="bub ${m.role === "user" ? "me" : "ai"}">${esc(m.content)}${m.meta ? `<div class="meta">${m.meta}</div>` : ""}</div>`).join("");
+  box.scrollTop = box.scrollHeight;
+}
+$("#msgs").addEventListener("click", (e) => { if (e.target.classList.contains("sug")) { $("#prompt").value = e.target.textContent; send(); } });
+$("#clearChat").onclick = () => { chatLog.length = 0; renderMsgs(); };
+$("#prompt").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } });
+$("#send").onclick = send;
+async function send() {
+  const text = $("#prompt").value.trim(); if (!text) return;
+  $("#prompt").value = ""; $("#send").disabled = true;
+  chatLog.push({ role: "user", content: text });
+  const ai = { role: "assistant", content: "", meta: '<span class="dim">thinking…</span>' }; chatLog.push(ai); renderMsgs();
+  const t0 = performance.now(), model = $("#model").value;
+  try {
+    let info;
+    if (DEMO) info = await demo.chat(model, text, (d) => { ai.content += d; renderMsgs(); });
+    else info = await realChat(model, (d) => { ai.content += d; renderMsgs(); });
+    ai.meta = `<span class="chip live" style="padding:1px 8px"><i></i>${esc(info.provider)}</span><span class="mono">${esc(info.model)}</span><span>${Math.round(performance.now() - t0)} ms</span>`;
+  } catch (e) {
+    ai.content = ai.content || "⚠️ " + e.message; ai.meta = '<span class="chip bad" style="padding:1px 8px"><i></i>error</span>';
+  }
+  $("#send").disabled = false; renderMsgs(); refresh();
+}
+async function realChat(model, onDelta) {
+  const stream = $("#stream").checked;
+  const h = { "content-type": "application/json" }; if (PW) h.authorization = "Bearer " + PW;
+  const msgs = chatLog.filter((m) => m.content && !(m.role === "assistant" && m.meta && m.meta.includes("error"))).slice(-12).map((m) => ({ role: m.role, content: m.content }));
+  msgs.pop(); // the empty assistant placeholder is not sent
+  const r = await fetch("/v1/chat/completions", { method: "POST", headers: h, body: JSON.stringify({ model, stream, messages: msgs.filter((m) => m.content) }) });
+  if (!r.ok) { const j = await r.json().catch(() => ({})); throw new Error((j.error && j.error.message) || "HTTP " + r.status); }
+  const info = { provider: r.headers.get("x-router-provider"), model: r.headers.get("x-router-model") };
+  if (!stream) { const j = await r.json(); onDelta(j.choices?.[0]?.message?.content ?? ""); return info; }
+  const rd = r.body.getReader(), dec = new TextDecoder(); let buf = "";
+  for (;;) {
+    const { done, value } = await rd.read(); if (done) break;
+    buf += dec.decode(value, { stream: true }); let i;
+    while ((i = buf.indexOf("\n")) >= 0) {
+      const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1);
+      if (!line.startsWith("data:") || line.includes("[DONE]")) continue;
+      try { const d = JSON.parse(line.slice(5)); const c = d.choices?.[0]?.delta?.content; if (c) onDelta(c); } catch {}
+    }
+  }
+  return info;
+}
+
+/* ---------------- connect ---------------- */
+let codeLang = "py";
+function keyText() { return DEMO || PW ? "YOUR_MASTER_KEY" : "any-text (no MASTER_KEY set)"; }
+function renderConnect() {
+  const base = (DEMO ? "http://localhost:8787" : location.origin) + "/v1";
+  $("#baseUrl").textContent = base;
+  $("#apiKeyHint").textContent = keyText();
+  const key = DEMO || PW ? "YOUR_MASTER_KEY" : "local";
+  const snip = {
+    py: `# pip install openai\nfrom openai import OpenAI\n\nclient = OpenAI(\n    base_url="${base}",\n    api_key="${key}",\n)\n\nr = client.chat.completions.create(\n    model="auto",\n    messages=[{"role": "user", "content": "Namaste!"}],\n)\nprint(r.choices[0].message.content)`,
+    js: `// npm install openai\nimport OpenAI from "openai";\n\nconst client = new OpenAI({\n  baseURL: "${base}",\n  apiKey: "${key}",\n});\n\nconst r = await client.chat.completions.create({\n  model: "auto",\n  messages: [{ role: "user", content: "Namaste!" }],\n});\nconsole.log(r.choices[0].message.content);`,
+    curl: `curl ${base}/chat/completions \\\n  -H "Authorization: Bearer ${key}" \\\n  -H "Content-Type: application/json" \\\n  -d '{"model":"auto","messages":[{"role":"user","content":"Namaste!"}]}'`,
+    win: `curl ${base}/chat/completions -H "Authorization: Bearer ${key}" -H "Content-Type: application/json" -d "{\\"model\\":\\"auto\\",\\"messages\\":[{\\"role\\":\\"user\\",\\"content\\":\\"Namaste!\\"}]}"`,
+  };
+  $("#code").textContent = snip[codeLang];
+}
+$("#codeTabs").onclick = (e) => { const b = e.target.closest("button"); if (!b) return; codeLang = b.dataset.l; $$("#codeTabs button").forEach((x) => x.classList.toggle("on", x === b)); renderConnect(); };
+$("#copyCode").onclick = () => copy($("#code").textContent);
+$("#copyKeyBtn").onclick = () => copy(keyText().startsWith("any") ? "local" : keyText());
+document.addEventListener("click", (e) => {
+  const c = e.target.closest("[data-copy]"); if (c) copy($(c.dataset.copy).textContent);
+  const t = e.target.closest("[data-copytext]"); if (t) copy(t.dataset.copytext);
+});
+
+/* ---------------- users (server mode) ---------------- */
+async function loadUsers() {
+  const { users } = await api("GET", "/admin/api/users");
+  $("#utable").innerHTML = `<tr><th>User</th><th>Key</th><th>Used today</th><th>Daily limit</th><th>On</th><th></th></tr>` + (users.length ? users.map((u) => {
+    const pct = u.quota_tokens_per_day ? Math.min(100, (100 * u.used_tokens_today) / u.quota_tokens_per_day) : 100;
+    return `<tr data-id="${u.id}"><td><b>${esc(u.name)}</b><div class="dim small">${esc(u.email || "")}${u.via === "signup" ? " · signup" : ""}</div></td><td class="mono dim small">${esc(u.key_hint)}</td>
+      <td style="min-width:140px">${fmt(u.used_tokens_today)}<div class="track" style="height:6px;margin-top:5px"><div class="fill" style="width:${pct}%;background:${pct >= 100 ? "var(--red)" : "var(--blue)"}"></div></div></td>
+      <td><input type="number" min="0" value="${u.quota_tokens_per_day}" data-act="quota" style="max-width:120px;padding:7px 9px"></td>
+      <td><input type="checkbox" ${u.enabled ? "checked" : ""} data-act="toggle" style="width:auto"></td>
+      <td style="white-space:nowrap"><button class="btn sm" data-act="regen">New key</button> <button class="btn sm ghost" data-act="del" style="color:var(--red)">Delete</button></td></tr>`;
+  }).join("") : `<tr><td colspan="6" class="dim">No users yet.</td></tr>`);
+  const s = STATS.users; $("#signupInfo").textContent = `Public signup: ${s.signup_enabled ? "ON at /signup" : "off"} · default ${fmt(s.default_quota)} tokens/day`;
+}
+$("#utable").addEventListener("change", async (e) => {
+  const id = e.target.closest("tr")?.dataset.id; if (!id) return;
+  if (e.target.dataset.act === "quota") await api("PATCH", "/admin/api/users/" + id, { quota_tokens_per_day: Number(e.target.value) });
+  if (e.target.dataset.act === "toggle") await api("PATCH", "/admin/api/users/" + id, { enabled: e.target.checked });
+  toast("Saved ✓"); loadUsers();
+});
+$("#utable").addEventListener("click", async (e) => {
+  const act = e.target.dataset.act, id = e.target.closest("tr")?.dataset.id; if (!id || !act) return;
+  if (act === "del" && confirm("Delete this user? Their key stops working.")) { await api("DELETE", "/admin/api/users/" + id); loadUsers(); }
+  if (act === "regen" && confirm("Make a new key? The old one stops working.")) { const r = await api("POST", "/admin/api/users/" + id + "/regenerate"); showKey(r.key); loadUsers(); }
+});
+function showKey(k) { $("#newKey").classList.remove("hide"); $("#newKeyVal").textContent = k; }
+$("#uCreate").onclick = async () => {
+  const name = $("#uName").value.trim(); if (!name) return toast("Enter a name");
+  const q = Number($("#uQuota").value);
+  const r = await api("POST", "/admin/api/users", { name, email: $("#uEmail").value.trim() || undefined, quota_tokens_per_day: q > 0 ? q : undefined });
+  showKey(r.key); $("#uName").value = $("#uEmail").value = $("#uQuota").value = ""; loadUsers();
+};
+$("#exportBtn").onclick = async () => {
+  const j = await api("GET", "/admin/api/export");
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(j, null, 2)], { type: "application/json" })); a.download = "freellm-users-backup.json"; a.click();
+};
+$("#importFile").onchange = async (e) => {
+  const f = e.target.files[0]; if (!f || !confirm("Replace all users with this backup?")) return;
+  try { const r = await api("POST", "/admin/api/import", JSON.parse(await f.text())); toast("Restored " + r.users + " users"); loadUsers(); } catch (err) { toast("Restore failed: " + err.message); }
+};
+
+boot(true);
+</script>
+</body>
+</html>

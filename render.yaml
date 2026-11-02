@@ -1,0 +1,36 @@
+# One-click deploy on Render (free web service).
+# Render asks you for each "sync: false" value during setup. MASTER_KEY is generated for you
+# (find it later in Render -> your service -> Environment).
+services:
+  - type: web
+    name: freellm-router
+    runtime: node
+    plan: free
+    buildCommand: "echo no build needed"
+    startCommand: "node src/server.js"
+    healthCheckPath: /healthz
+    envVars:
+      - key: MASTER_KEY
+        generateValue: true
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: MISTRAL_API_KEY
+        sync: false
+      - key: CEREBRAS_API_KEY
+        sync: false
+      - key: GIST_ID
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: SERVER_MODE
+        value: "true"
+      - key: DEFAULT_USER_QUOTA
+        value: "50000"
+      - key: ENABLE_SIGNUP
+        value: "false"

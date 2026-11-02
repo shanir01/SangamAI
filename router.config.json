@@ -1,0 +1,200 @@
+{
+  "_comment": "Free-tier limits change often. Numbers marked limits_verified:true were copied from the provider's own docs on 2026-11-02; the others are safe guesses (the router also learns from real 429 answers). Edit freely.",
+  "state_file": "router.state.json",
+  "default_alias": "auto",
+  "strategy": "fallback",
+  "alias_strategy": {
+    "auto": "round-robin"
+  },
+  "removed_ttl_seconds": 86400,
+  "cooldown_base_seconds": 15,
+  "cooldown_max_seconds": 3600,
+  "request_timeout_ms": 60000,
+  "providers": {
+    "gemini": {
+      "api_key_env": "GEMINI_API_KEY"
+    },
+    "groq": {
+      "api_key_env": "GROQ_API_KEY"
+    },
+    "openrouter": {
+      "api_key_env": "OPENROUTER_API_KEY",
+      "limits": {
+        "rpm": 20,
+        "rpd": 50
+      },
+      "_limits_note": "OpenRouter's free cap is per ACCOUNT across all :free models: 20 req/min, 50 req/day (1000/day once you have bought $10+ credits ever). Source: https://openrouter.ai/docs/api-reference/limits"
+    },
+    "mistral": {
+      "api_key_env": "MISTRAL_API_KEY"
+    },
+    "cerebras": {
+      "api_key_env": "CEREBRAS_API_KEY"
+    },
+    "huggingface": {
+      "api_key_env": "HF_TOKEN"
+    }
+  },
+  "models": [
+    {
+      "id": "gemini/gemini-3.8-flash",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash",
+      "free": true,
+      "context_window": 1048576,
+      "limits": {
+        "rpm": 10
+      },
+      "limits_verified": false,
+      "source": "https://ai.google.dev/gemini-api/docs/pricing (free tier: yes). Per-model free limits are only shown in AI Studio: https://aistudio.google.com"
+    },
+    {
+      "id": "gemini/gemini-3.5-flash-lite",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "free": true,
+      "context_window": 1048576,
+      "limits": {
+        "rpm": 15
+      },
+      "limits_verified": false,
+      "source": "https://ai.google.dev/gemini-api/docs/pricing"
+    },
+    {
+      "id": "groq/gpt-oss-120b",
+      "provider": "groq",
+      "model": "openai/gpt-oss-120b",
+      "free": true,
+      "context_window": 131072,
+      "limits": {
+        "rpm": 30,
+        "rpd": 1000,
+        "tpm": 8000
+      },
+      "limits_verified": true,
+      "source": "https://console.groq.com/docs/rate-limits"
+    },
+    {
+      "id": "groq/gpt-oss-20b",
+      "provider": "groq",
+      "model": "openai/gpt-oss-20b",
+      "free": true,
+      "context_window": 131072,
+      "limits": {
+        "rpm": 30,
+        "rpd": 1000,
+        "tpm": 8000
+      },
+      "limits_verified": true,
+      "source": "https://console.groq.com/docs/rate-limits"
+    },
+    {
+      "id": "groq/qwen3.8-27b",
+      "provider": "groq",
+      "model": "qwen/qwen3.8-27b",
+      "free": true,
+      "context_window": 131072,
+      "limits": {
+        "rpm": 30,
+        "rpd": 1000,
+        "tpm": 8000
+      },
+      "limits_verified": true,
+      "source": "https://console.groq.com/docs/rate-limits"
+    },
+    {
+      "id": "openrouter/gemma-4-31b:free",
+      "provider": "openrouter",
+      "model": "google/gemma-4-31b-it:free",
+      "free": true,
+      "context_window": 65536,
+      "limits": {
+        "rpm": 20
+      },
+      "limits_verified": true,
+      "source": "https://openrouter.ai/docs/api-reference/limits"
+    },
+    {
+      "id": "openrouter/nemotron-3-ultra:free",
+      "provider": "openrouter",
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "free": true,
+      "context_window": 65536,
+      "limits": {
+        "rpm": 20
+      },
+      "limits_verified": true,
+      "source": "https://openrouter.ai/docs/api-reference/limits"
+    },
+    {
+      "id": "mistral/mistral-small-latest",
+      "provider": "mistral",
+      "model": "mistral-small-latest",
+      "free": true,
+      "context_window": 32000,
+      "limits": {
+        "rpm": 50
+      },
+      "limits_verified": false,
+      "source": "https://docs.mistral.ai/admin/billing-usage/usage-limits (free mode limits are shown on your Limits page in Mistral AI Studio)"
+    },
+    {
+      "id": "cerebras/gpt-oss-120b",
+      "provider": "cerebras",
+      "model": "gpt-oss-120b",
+      "free": true,
+      "context_window": 65536,
+      "limits": {
+        "rpm": 5,
+        "tpm": 30000
+      },
+      "limits_verified": true,
+      "source": "https://inference-docs.cerebras.ai/support/rate-limits (FREE TRIAL only: $5 credits, expire after 30 days)"
+    },
+    {
+      "id": "huggingface/gpt-oss-120b",
+      "provider": "huggingface",
+      "model": "openai/gpt-oss-120b",
+      "free": false,
+      "context_window": 131072,
+      "limits": {
+        "rpm": 20
+      },
+      "limits_verified": false,
+      "source": "https://huggingface.co/docs/inference-providers/pricing (free accounts get NO monthly credits; PRO gets $2/month). Set free:true only if you have credits."
+    }
+  ],
+  "aliases": {
+    "auto": [
+      "groq/gpt-oss-120b",
+      "gemini/gemini-3.8-flash",
+      "mistral/mistral-small-latest",
+      "openrouter/gemma-4-31b:free",
+      "cerebras/gpt-oss-120b",
+      "groq/gpt-oss-20b",
+      "gemini/gemini-3.5-flash-lite",
+      "huggingface/gpt-oss-120b"
+    ],
+    "fast": [
+      "groq/gpt-oss-20b",
+      "gemini/gemini-3.5-flash-lite",
+      "cerebras/gpt-oss-120b",
+      "mistral/mistral-small-latest",
+      "openrouter/gemma-4-31b:free"
+    ],
+    "smart": [
+      "gemini/gemini-3.8-flash",
+      "groq/gpt-oss-120b",
+      "openrouter/nemotron-3-ultra:free",
+      "groq/qwen3.8-27b",
+      "mistral/mistral-small-latest",
+      "cerebras/gpt-oss-120b",
+      "huggingface/gpt-oss-120b"
+    ],
+    "long-context": [
+      "gemini/gemini-3.8-flash",
+      "gemini/gemini-3.5-flash-lite",
+      "groq/gpt-oss-120b"
+    ]
+  }
+}
